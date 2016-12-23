@@ -15,6 +15,8 @@ public class Main {
 
 
         Document doc = Jsoup.connect("http://en.wikipedia.org/wiki/Boston").get();
+
+
         Element contentDiv = doc.select("div[id=content]").first();
 
         try{
