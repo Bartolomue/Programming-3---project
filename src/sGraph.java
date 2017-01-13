@@ -56,14 +56,14 @@ public class sGraph {
     }
 
     //int[] vectorA, int[] vectorB
-    public void testValues()
+    public void testValues(int[] vectorA, int[] vectorB)
     {
         //int[] t1 = new int[5];
         int[] t1 = {2,3,4,5,6};
         int[] t2 = {1,2,3,4,5};
-        double r1 = cosineSimilarity(t1,t2);
-        System.out.println("vA: "+t1.toStringI());
-        System.out.println("vB: "+t2.toStringI());
+        double r1 = cosineSimilarity(vectorA,vectorB);
+        System.out.println("vA: "+toStringI(vectorA));
+        System.out.println("vB: "+toStringI(vectorB));
         System.out.println("Result: " + r1);
     }
 
@@ -72,12 +72,14 @@ public class sGraph {
         String retVal = "[";
         for(int i=0;i<vector.length-1;i++)
         {
-            retVal+=(char)vector[i];
+            retVal+=vector[i];
             retVal+=", ";
         }
         retVal=retVal.substring(0,retVal.length()-2);
         retVal+="]";
         return retVal;
     }
+
+    public boolean createConnection()
 
 }
