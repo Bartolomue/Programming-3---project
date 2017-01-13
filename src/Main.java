@@ -11,6 +11,7 @@ public class Main {
         Graph graph = new SingleGraph("Tutorial 1");
         System.out.println("Working!\n");
         int k = 2/3;
+        /*
         graph.addNode("A");
         graph.addNode("B");
         graph.addNode("C");
@@ -19,6 +20,12 @@ public class Main {
         graph.addEdge("CA", "C", "A");
 
         graph.display();
+        */
+        sGraph myTestGraph = new sGraph();
+        myTestGraph.giveNode("first");
+        myTestGraph.giveNode("second");
+        myTestGraph.displayGraph();
+        myTestGraph.testValues();
     }
 
 }
