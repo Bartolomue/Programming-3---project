@@ -1,5 +1,3 @@
-package DataDownload;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -9,7 +7,7 @@ import java.io.PrintWriter;
 /**
  * Created by bartek on 11/6/16.
  */
-public class Main {
+public class SiteDownloader {
 
     public static void main(String[] args) throws IOException {
 
@@ -26,5 +24,11 @@ public class Main {
 
         System.out.println("DONE");
 
+    }
+
+    public static String getContent(String url) throws IOException {
+        Document doc = Jsoup.connect(url).get();
+        Element contentDiv = doc.select("div[id=content]").first();
+        return contentDiv.text();
     }
 }

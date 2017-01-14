@@ -1,4 +1,5 @@
 import java.io.*;
+import java.math.BigInteger;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -9,20 +10,31 @@ import java.util.regex.Pattern;
  * Author: AskDrCatcher
  * License: MIT
  */
-public class RAKE {
+public class Extractor {
 
-    private boolean isNumber(final String str) {
+    public static Map<String, Double> getKeywords(String stopPath, String text) throws IOException {
+        final Extractor rakeInstance = new Extractor();
+
+        final List<String> sentenceList = rakeInstance.splitSentences(text);
+        final Pattern stopWordPattern = rakeInstance.buildStopWordRegex(stopPath);
+        final List<String> phraseList = rakeInstance.generateCandidateKeywords(sentenceList, stopWordPattern);
+        final Map<String, Double> wordScore = rakeInstance.calculateWordScores(phraseList);
+        return rakeInstance.generateCandidateKeywordScores(phraseList, wordScore);
+
+    }
+
+    private static boolean isNumber(final String str) {
         return str.matches("[0-9.]");
     }
 
-    private List<String> loadStopWords(String filePath) throws FileNotFoundException, IOException {
+    private static List<String> loadStopWords(String filePath) throws FileNotFoundException, IOException {
 
         if (filePath == null || filePath.trim().length() == 0) {
-            filePath = "Document/FoxStoplist.txt";
+            filePath = "FoxStoplist.txt";
         }
 
         final List<String> stopWords = new ArrayList<String>();
-        final BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream(filePath)));
+        final BufferedReader br = new BufferedReader(new InputStreamReader(Extractor.class.getResourceAsStream(filePath)));
 
         try {
 
@@ -44,7 +56,7 @@ public class RAKE {
         return stopWords;
     }
 
-    private List<String> separateWords(final String text, final int minimumWordReturnSize) {
+    private static List<String> separateWords(final String text, final int minimumWordReturnSize) {
 
         final List<String> separateWords = new ArrayList<String>();
         final String[] words = text.split("[^a-zA-Z0-9_\\+\\-/]");
@@ -67,7 +79,7 @@ public class RAKE {
     }
 
 
-    private List<String> splitSentences(final String text) {
+    private static List<String> splitSentences(final String text) {
 
         final String[] sentences = text.split("[.!?,;:\\t\\\\-\\\\\"\\\\(\\\\)\\\\\\'\\u2019\\u2013]");
 
@@ -78,7 +90,7 @@ public class RAKE {
         }
     }
 
-    private Pattern buildStopWordRegex(final String stopWordFilePath) throws IOException {
+    private static Pattern buildStopWordRegex(final String stopWordFilePath) throws IOException {
 
         final List<String> stopWords = loadStopWords(stopWordFilePath);
         final StringBuilder stopWordPatternBuilder = new StringBuilder();
@@ -93,7 +105,7 @@ public class RAKE {
         return Pattern.compile(stopWordPatternBuilder.toString(), Pattern.CASE_INSENSITIVE);
     }
 
-    private List<String> generateCandidateKeywords(List<String> sentenceList, Pattern stopWordPattern) {
+    private static List<String> generateCandidateKeywords(List<String> sentenceList, Pattern stopWordPattern) {
         final List<String> phraseList = new ArrayList<String>();
 
         for (final String sentence : sentenceList) {
@@ -113,7 +125,7 @@ public class RAKE {
         return phraseList;
     }
 
-    private Map<String,Double> calculateWordScores(List<String> phraseList) {
+    private static Map<String,Double> calculateWordScores(List<String> phraseList) {
 
         final Map<String, Integer> wordFrequency = new HashMap<String, Integer>();
         final Map<String, Integer> wordDegree = new HashMap<String, Integer>();
@@ -127,16 +139,16 @@ public class RAKE {
 
             for (final String word : wordList) {
 
-               if (!wordFrequency.containsKey(word)) {
-                   wordFrequency.put(word, 0);
-               }
+                if (!wordFrequency.containsKey(word)) {
+                    wordFrequency.put(word, 0);
+                }
 
-               if (!wordDegree.containsKey(word)) {
-                   wordDegree.put(word, 0);
-               }
+                if (!wordDegree.containsKey(word)) {
+                    wordDegree.put(word, 0);
+                }
 
-               wordFrequency.put(word, wordFrequency.get(word) + 1);
-               wordDegree.put(word, wordDegree.get(word) + wordListDegree);
+                wordFrequency.put(word, wordFrequency.get(word) + 1);
+                wordDegree.put(word, wordDegree.get(word) + wordListDegree);
             }
         }
 
@@ -157,8 +169,8 @@ public class RAKE {
         return wordScore;
     }
 
-    public Map<String, Double> generateCandidateKeywordScores(List<String> phraseList,
-                                                               Map<String, Double> wordScore) {
+    public static Map<String, Double> generateCandidateKeywordScores(List<String> phraseList,
+                                                              Map<String, Double> wordScore) {
 
         final Map<String, Double> keyWordCandidates = new HashMap<String, Double>();
 
@@ -182,10 +194,10 @@ public class RAKE {
         final String text =
                 "Compatibility of systems of linear constraints over the set of natural numbers. Criteria of compatibility of a system of linear Diophantine equations, strict inequations, and nonstrict inequations are considered. Upper bounds for components of a minimal set of solutions and algorithms of construction of minimal generating sets of solutions for all types of systems are given. These criteria and the corresponding algorithms for constructing a minimal supporting set of solutions can be used in solving all the considered types of systems and systems of mixed types.";
 
-        final RAKE rakeInstance = new RAKE();
+        final Extractor rakeInstance = new Extractor();
 
         final List<String> sentenceList = rakeInstance.splitSentences(text);
-        final String stopPath = "Document/SmartStoplist.txt";
+        final String stopPath = "SmartStoplist.txt";
         final Pattern stopWordPattern = rakeInstance.buildStopWordRegex(stopPath);
         final List<String> phraseList = rakeInstance.generateCandidateKeywords(sentenceList, stopWordPattern);
         final Map<String, Double> wordScore = rakeInstance.calculateWordScores(phraseList);
@@ -197,7 +209,7 @@ public class RAKE {
                 rakeInstance.sortKeyWordCandidates(keywordCandidates));
     }
 
-    private LinkedHashMap<String, Double> sortKeyWordCandidates
+    private static LinkedHashMap<String, Double> sortKeyWordCandidates
             (Map<String,Double> keywordCandidates) {
 
         final LinkedHashMap<String, Double> sortedKeyWordCandidates = new LinkedHashMap<String, Double>();

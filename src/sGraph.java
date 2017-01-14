@@ -80,6 +80,5 @@ public class sGraph {
         return retVal;
     }
 
-    public boolean createConnection()
 
 }

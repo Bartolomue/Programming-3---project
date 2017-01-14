@@ -1,7 +1,3 @@
-package Document;
-
-import Extractor.Extractor;
-
 import java.io.IOException;
 import java.util.Map;
 
