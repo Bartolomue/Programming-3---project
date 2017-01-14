@@ -4,7 +4,7 @@
 import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.*;
 
-public class Main {
+public class TestMain1 {
 
     public static void main(String[] args)
     {

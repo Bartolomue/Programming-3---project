@@ -9,7 +9,6 @@ public class sGraph {
     public sGraph()
     {
         internalGraph = new SingleGraph("internalGraphID");
-
     }
 
     public void giveEdge(String key, String sourceId, String destinationId)
@@ -79,6 +78,4 @@ public class sGraph {
         retVal+="]";
         return retVal;
     }
-
-
 }
