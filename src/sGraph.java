@@ -12,12 +12,10 @@ public class sGraph {
     public sGraph()
     {
         internalGraph = new SingleGraph("internalGraphID");
-
     }
 
     public void giveEdge(String key, String sourceId, String destinationId)
     {
-        //internalGraph.addNode(key);
         internalGraph.addEdge(sourceId+destinationId, sourceId, destinationId);
         System.out.println("Edge " + key + "has been added/n");
     }

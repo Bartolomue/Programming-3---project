@@ -72,10 +72,20 @@ public class SiteDownloader {
     }
 
     public static String getSampleUrl1() {
+        return sampleUrl + list.get(0);
+    }
+    public static String getSampleUrl2() {
         return sampleUrl + list.get(1);
     }
-
-    public static String getSampleUrl2() {
+    public static String getSampleUrl3() {
         return sampleUrl + list.get(2);
     }
+    public static String getSampleUrl4() {
+        return sampleUrl + list.get(3);
+    }
+    public static String getSampleUrl5() {
+        return sampleUrl + list.get(4);
+    }
+
+
 }

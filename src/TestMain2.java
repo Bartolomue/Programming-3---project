@@ -5,11 +5,16 @@ import java.io.IOException;
  */
 public class TestMain2 {
     public static void main(String argv[]) throws IOException {
-        Document t = new Document(SiteDownloader.getContent("http://en.wikipedia.org/wiki/Boston"));
+        Data d = new Data();
 
-        for (String s: t.keywords.keySet()
-             ) {
-            System.out.println("Key: " + s + " value: " + t.keywords.get(s));
+        for (Document doc : d.docs){
+            System.out.println(doc.toString());
         }
+//        Document t = new Document(SiteDownloader.getContent("http://en.wikipedia.org/wiki/Boston"));
+//
+//        for (String s: t.keywords.keySet()
+//             ) {
+//            System.out.println("Key: " + s + " value: " + t.keywords.get(s));
+//        }
     }
 }
