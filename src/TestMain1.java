@@ -20,13 +20,19 @@ public class TestMain1 {
 
         graph.display();
         */
+
         sGraph myTestGraph = new sGraph();
         myTestGraph.giveNode("first");
         myTestGraph.giveNode("second");
         myTestGraph.displayGraph();
+        /*
         int[] a = {1,2,3,4,5,6,7,8,9};
         int[] b = {9,8,7,6,5,4,3,2,1};
         myTestGraph.testValues(a,b);
+        */
+
+        myTestGraph.testConnection();
+
     }
 
 }

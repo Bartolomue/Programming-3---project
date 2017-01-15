@@ -1,9 +1,7 @@
 import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.*;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * Created by Maksym on 2017-01-13.
@@ -35,7 +33,7 @@ public class sGraph {
         internalGraph.display();
     }
 
-    public double cosineSimilarity(int[] vectorA, int[] vectorB)
+    public double cosineSimilarity(double[] vectorA, double[] vectorB)
     {
         double result=0.0;
         double dotProduct=0.0;
@@ -66,10 +64,11 @@ public class sGraph {
         //int[] t1 = new int[5];
         int[] t1 = {2,3,4,5,6};
         int[] t2 = {1,2,3,4,5};
-        double r1 = cosineSimilarity(vectorA,vectorB);
+
+        //double r1 = cosineSimilarity(vectorA,vectorB);
         System.out.println("vA: "+toStringI(vectorA));
         System.out.println("vB: "+toStringI(vectorB));
-        System.out.println("Result: " + r1);
+        //System.out.println("Result: " + r1);
     }
 
     private String toStringI(int[] vector)
@@ -85,10 +84,36 @@ public class sGraph {
         return retVal;
     }
 
-    public void createConnection(TreeMap<String,Double> inputMapA, TreeMap<String,Double> inputMapB, int userSize)
+    public void createConnectionFiles(Map<String, Double> inputMapA, Map<String,Double> inputMapB, int userSize)
     {
         // Sort input tree map in desc order by key!!!!!
+        // Test START
+        for (Map.Entry<String, Double> entry : inputMapA.entrySet())
+        {
+            System.out.println(entry.getKey() + "/" + entry.getValue());
+        }
+        for (Map.Entry<String, Double> entry : inputMapB.entrySet())
+        {
+            System.out.println(entry.getKey() + "/" + entry.getValue());
+        }
+        // Test END
 
+        inputMapA=sortByValue(inputMapA);
+        inputMapB=sortByValue(inputMapB);
+
+        // Test START
+        System.out.println("After sort ---------------------------");
+        System.out.println("Map A:");
+        for (Map.Entry<String, Double> entry : inputMapA.entrySet())
+        {
+            System.out.println(entry.getKey() + "/" + entry.getValue());
+        }
+        System.out.println("Map B:");
+        for (Map.Entry<String, Double> entry : inputMapB.entrySet())
+        {
+            System.out.println(entry.getKey() + "/" + entry.getValue());
+        }
+        // Test END
         // Assumes: map is sorted, user picks only TOP values
         int indToUse1=userSize;
         int indToUse2=userSize;
@@ -126,8 +151,74 @@ public class sGraph {
 
             counter+=1;
         }
+        /* Test of output vectors
+        System.out.println();
+        for(Double x: resultVectorA)
+        {
+            System.out.println("VA: " + x);
+        }
+        System.out.println(resultVectorA.length + "  " + resultVectorB.length);
+        for(Double x: resultVectorB)
+        {
+            System.out.println("VB: " + x);
+        }
+        */
+        double[] resultVectorAdouble = new double[resultVectorA.length];
+        double[] resultVectorBdouble = new double[resultVectorB.length];
+        for(int i=0; i<resultVectorA.length; i++)
+        {
+            resultVectorAdouble[i]=resultVectorA[i].doubleValue();
+            resultVectorBdouble[i]=resultVectorB[i].doubleValue();
+        }
+
+        Double returnVal = cosineSimilarity(resultVectorAdouble, resultVectorBdouble);
+
+        System.out.println("Similarity: " + returnVal);
 
     }
 
+    public static <K, V extends Comparable<? super V>> Map<K, V>
+    sortByValue( Map<K, V> map )
+    {
+        List<Map.Entry<K, V>> list =
+                new LinkedList<Map.Entry<K, V>>( map.entrySet() );
+        Collections.sort( list, new Comparator<Map.Entry<K, V>>()
+        {
+            public int compare( Map.Entry<K, V> o1, Map.Entry<K, V> o2 )
+            {
+                return (0-(o1.getValue()).compareTo( o2.getValue() ));
+            }
+        } );
+
+        Map<K, V> result = new LinkedHashMap<K, V>();
+        for (Map.Entry<K, V> entry : list)
+        {
+            result.put( entry.getKey(), entry.getValue() );
+        }
+        return result;
+    }
+
+    public void testConnection()
+    {
+        Map<String,Double> testMap1 = new HashMap();
+        testMap1.put("T1", new Double(3.8));
+        testMap1.put("T2", 4.9);
+        testMap1.put("T3", (double) 99);
+        testMap1.put("T9", 3.333);
+       // testMap1.put("T1", 2.2);
+
+        Map<String, Double> testMap2 = new HashMap();
+        testMap2.put("T1", 4.0);
+        testMap2.put("T5", 4.9);
+        testMap2.put("T4", 4.4);
+
+        Map<String, Double> testMap3 = new HashMap();
+        testMap3.put("T9", 3.3);
+        testMap3.put("T11", 1.3);
+
+        int userTop = 3;
+
+        createConnectionFiles(testMap1,testMap2,userTop);
+    }
 
 }
