@@ -31,7 +31,7 @@ public class TestMain1 {
         myTestGraph.testValues(a,b);
         */
 
-        myTestGraph.testConnection();
+        //myTestGraph.testConnection();
 
     }
 

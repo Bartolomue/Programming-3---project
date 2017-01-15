@@ -198,7 +198,7 @@ public class sGraph {
         return result;
     }
 
-    public void testConnection()
+    public void testConnection(Map<String,Double> City1, Map<String,Double> City2)
     {
         Map<String,Double> testMap1 = new HashMap();
         testMap1.put("T1", new Double(3.8));
@@ -218,7 +218,7 @@ public class sGraph {
 
         int userTop = 3;
 
-        createConnectionFiles(testMap1,testMap2,userTop);
+        createConnectionFiles(City1,City2,userTop);
     }
 
 }
