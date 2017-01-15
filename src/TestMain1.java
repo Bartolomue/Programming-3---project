@@ -26,7 +26,7 @@ public class TestMain1 {
         sGraph myTestGraph = new sGraph();
         myTestGraph.giveNode("first");
         myTestGraph.giveNode("second");
-        myTestGraph.displayGraph();
+       // myTestGraph.displayGraph();
         /*
         int[] a = {1,2,3,4,5,6,7,8,9};
         int[] b = {9,8,7,6,5,4,3,2,1};
@@ -37,9 +37,10 @@ public class TestMain1 {
 
         Document d1 = new Document(SiteDownloader.getContent(SiteDownloader.getSampleUrl1()));
         Document d2 = new Document(SiteDownloader.getContent(SiteDownloader.getSampleUrl2()));
-
-        System.out.println(d1.keywords);
-        System.out.println(d2.keywords);
+        System.out.println("Phase 2 starting...");
+        myTestGraph.testConnection(d1.keywords, d2.keywords);
+        //System.out.println(d1.keywords);
+        //System.out.println(d2.keywords);
     }
 
 }

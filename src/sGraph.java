@@ -88,21 +88,21 @@ public class sGraph {
     {
         // Sort input tree map in desc order by key!!!!!
         // Test START
-        for (Map.Entry<String, Double> entry : inputMapA.entrySet())
+        /*for (Map.Entry<String, Double> entry : inputMapA.entrySet())
         {
             System.out.println(entry.getKey() + "/" + entry.getValue());
         }
         for (Map.Entry<String, Double> entry : inputMapB.entrySet())
         {
             System.out.println(entry.getKey() + "/" + entry.getValue());
-        }
+        }*/
         // Test END
 
         inputMapA=sortByValue(inputMapA);
         inputMapB=sortByValue(inputMapB);
 
         // Test START
-        System.out.println("After sort ---------------------------");
+        /*System.out.println("After sort ---------------------------");
         System.out.println("Map A:");
         for (Map.Entry<String, Double> entry : inputMapA.entrySet())
         {
@@ -112,7 +112,7 @@ public class sGraph {
         for (Map.Entry<String, Double> entry : inputMapB.entrySet())
         {
             System.out.println(entry.getKey() + "/" + entry.getValue());
-        }
+        }*/
         // Test END
         // Assumes: map is sorted, user picks only TOP values
         int indToUse1=userSize;
