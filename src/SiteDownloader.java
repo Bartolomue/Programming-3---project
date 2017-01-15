@@ -1,7 +1,6 @@
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,8 +13,13 @@ import java.util.List;
  */
 public class SiteDownloader {
 
+    private static String sampleUrl = "https://en.wikipedia.org/wiki/";
+
+    private static List<String> list = Arrays.asList("Warsaw", "Boston", "New_York", "London", "Kraków");
+
     public static void main(String[] args) throws IOException {
-        makeSampleData();
+        System.out.println(getContent(getSampleUrl1()));
+        System.out.println(getContent(getSampleUrl2()));
     }
 
     public static List<String> getLinksByLink(String url) {
@@ -55,10 +59,9 @@ public class SiteDownloader {
     }
 
     public static void makeSampleData() throws IOException {
-        List<String> list = Arrays.asList("Warsaw", "Boston", "New_York", "London", "Kraków");
         for (String s : list
                 ) {
-            createFile("data/" + s.replaceAll("\\W+", ""), getContent("https://en.wikipedia.org/wiki/" + s));
+            createFile("data/" + s.replaceAll("\\W+", ""), getContent(sampleUrl + s));
         }
     }
 
@@ -66,5 +69,13 @@ public class SiteDownloader {
         Document doc = Jsoup.connect(url).get();
         Element contentDiv = doc.select("div[id=content]").first();
         return contentDiv.text();
+    }
+
+    public static String getSampleUrl1() {
+        return sampleUrl + list.get(0);
+    }
+
+    public static String getSampleUrl2() {
+        return sampleUrl + list.get(1);
     }
 }
