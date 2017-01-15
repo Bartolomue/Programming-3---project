@@ -33,7 +33,7 @@ public class TestMain1 {
         myTestGraph.testValues(a,b);
         */
 
-        myTestGraph.testConnection();
+        //myTestGraph.testConnection();
 
         Document d1 = new Document(SiteDownloader.getContent(SiteDownloader.getSampleUrl1()));
         Document d2 = new Document(SiteDownloader.getContent(SiteDownloader.getSampleUrl2()));
