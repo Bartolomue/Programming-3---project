@@ -1,5 +1,4 @@
 import java.io.*;
-import java.math.BigInteger;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -10,17 +9,16 @@ import java.util.regex.Pattern;
  * Author: AskDrCatcher
  * License: MIT
  */
+
 public class Extractor {
 
     public static Map<String, Double> getKeywords(String stopPath, String text) throws IOException {
         final Extractor rakeInstance = new Extractor();
-
         final List<String> sentenceList = rakeInstance.splitSentences(text);
         final Pattern stopWordPattern = rakeInstance.buildStopWordRegex(stopPath);
         final List<String> phraseList = rakeInstance.generateCandidateKeywords(sentenceList, stopWordPattern);
         final Map<String, Double> wordScore = rakeInstance.calculateWordScores(phraseList);
         return rakeInstance.generateCandidateKeywordScores(phraseList, wordScore);
-
     }
 
     private static boolean isNumber(final String str) {
