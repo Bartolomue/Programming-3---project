@@ -3,10 +3,12 @@
  */
 import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.*;
+
+import java.io.IOException;
+
 public class TestMain1 {
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) throws IOException {
         Graph graph = new SingleGraph("Tutorial 1");
         System.out.println("Working!\n");
         int k = 2/3;
@@ -33,6 +35,11 @@ public class TestMain1 {
 
         myTestGraph.testConnection();
 
+        Document d1 = new Document(SiteDownloader.getContent(SiteDownloader.getSampleUrl1()));
+        Document d2 = new Document(SiteDownloader.getContent(SiteDownloader.getSampleUrl2()));
+
+        System.out.println(d1.keywords);
+        System.out.println(d2.keywords);
     }
 
 }
