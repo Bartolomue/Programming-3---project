@@ -1,5 +1,10 @@
 import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.*;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeMap;
+
 /**
  * Created by Maksym on 2017-01-13.
  */
@@ -80,6 +85,49 @@ public class sGraph {
         return retVal;
     }
 
-    public boolean createConnection()
+    public void createConnection(TreeMap<String,Double> inputMapA, TreeMap<String,Double> inputMapB, int userSize)
+    {
+        // Sort input tree map in desc order by key!!!!!
+
+        // Assumes: map is sorted, user picks only TOP values
+        int indToUse1=userSize;
+        int indToUse2=userSize;
+        if(inputMapA.size() < indToUse1) indToUse1 = inputMapA.size();
+        if(inputMapB.size() < indToUse2) indToUse2 = inputMapB.size();
+
+        Set<String> set1 = inputMapA.keySet();
+        Set<String> set2 = inputMapB.keySet();
+        Set<String> finalSet = new HashSet<String>(set1);
+        finalSet.addAll(set2); // Adds all not already present in s1
+
+        Double[] resultVectorA = new Double[finalSet.size()];
+        Double[] resultVectorB = new Double[finalSet.size()];
+        int counter=0;
+        for(String x: finalSet)
+        {
+            // x is current term to check in both file input v's
+            if(inputMapA.containsKey(x))
+            {
+                resultVectorA[counter]=inputMapA.get(x);
+            }
+            else
+            {
+                resultVectorA[counter]=0.0;
+            }
+
+            if(inputMapB.containsKey(x))
+            {
+                resultVectorB[counter]=inputMapB.get(x);
+            }
+            else
+            {
+                resultVectorB[counter]=0.0;
+            }
+
+            counter+=1;
+        }
+
+    }
+
 
 }
