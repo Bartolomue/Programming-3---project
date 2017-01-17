@@ -8,10 +8,28 @@ import java.util.*;
  */
 public class sGraph {
     private Graph internalGraph;
+    private LinkedList<ContenerEdge> edges;
 
     public sGraph()
     {
         internalGraph = new SingleGraph("internalGraphID");
+    }
+
+    private class ContenerEdge
+    {
+        public String sourceId;
+        public String destinationId;
+        public double originalConnectionStrength;
+        public double normalisedConnectionStrength;
+
+        ContenerEdge(){}
+        ContenerEdge(String sId,String dId, double strength)
+        {
+            this.sourceId = sId;
+            this.destinationId = dId;
+            this.originalConnectionStrength = strength;
+        }
+
     }
 
     public void giveEdge(String key, String sourceId, String destinationId)
@@ -31,7 +49,7 @@ public class sGraph {
         internalGraph.display();
     }
 
-    public double cosineSimilarity(double[] vectorA, double[] vectorB)
+    private double cosineSimilarity(double[] vectorA, double[] vectorB)
     {
         double result=0.0;
         double dotProduct=0.0;
@@ -56,19 +74,6 @@ public class sGraph {
         return result;
     }
 
-    //int[] vectorA, int[] vectorB
-    public void testValues(int[] vectorA, int[] vectorB)
-    {
-        //int[] t1 = new int[5];
-        int[] t1 = {2,3,4,5,6};
-        int[] t2 = {1,2,3,4,5};
-
-        //double r1 = cosineSimilarity(vectorA,vectorB);
-        System.out.println("vA: "+toStringI(vectorA));
-        System.out.println("vB: "+toStringI(vectorB));
-        //System.out.println("Result: " + r1);
-    }
-
     private String toStringI(int[] vector)
     {
         String retVal = "[";
@@ -82,7 +87,7 @@ public class sGraph {
         return retVal;
     }
 
-    public void createConnectionFiles(Map<String, Double> inputMapA, Map<String,Double> inputMapB, int userSize)
+    private double createConnectionFiles(Map<String, Double> inputMapA, Map<String,Double> inputMapB, int userSize)
     {
         // Sort input tree map in desc order by key!!!!!
         // Test START
@@ -170,13 +175,11 @@ public class sGraph {
         }
 
         Double returnVal = cosineSimilarity(resultVectorAdouble, resultVectorBdouble);
-
-        System.out.println("Similarity: " + returnVal);
+        return returnVal;
 
     }
 
-    public static <K, V extends Comparable<? super V>> Map<K, V>
-    sortByValue( Map<K, V> map )
+    private static <K, V extends Comparable<? super V>> Map<K, V> sortByValue( Map<K, V> map )
     {
         List<Map.Entry<K, V>> list =
                 new LinkedList<Map.Entry<K, V>>( map.entrySet() );
@@ -196,8 +199,9 @@ public class sGraph {
         return result;
     }
 
-    public void testConnection(Map<String,Double> City1, Map<String,Double> City2)
+    public void testConnection(Map<String,Double> phraseMap1, String doc1Id, Map<String,Double> phraseMap2, String doc2Id)
     {
+        /*
         Map<String,Double> testMap1 = new HashMap();
         testMap1.put("T1", new Double(3.8));
         testMap1.put("T2", 4.9);
@@ -213,10 +217,26 @@ public class sGraph {
         Map<String, Double> testMap3 = new HashMap();
         testMap3.put("T9", 3.3);
         testMap3.put("T11", 1.3);
-
+        */
         int userTop = 3;
 
-        createConnectionFiles(City1,City2,userTop);
+        Double cosSim = createConnectionFiles(phraseMap1,phraseMap2,userTop);
+        ContenerEdge freshE = new ContenerEdge(doc1Id, doc2Id, cosSim);
+        edges.add(freshE);
+        
+        System.out.println("Similarity: " + cosSim);
+    }
+
+    public void testValues(int[] vectorA, int[] vectorB)
+    {
+        //int[] t1 = new int[5];
+        int[] t1 = {2,3,4,5,6};
+        int[] t2 = {1,2,3,4,5};
+
+        //double r1 = cosineSimilarity(vectorA,vectorB);
+        System.out.println("vA: "+toStringI(vectorA));
+        System.out.println("vB: "+toStringI(vectorB));
+        //System.out.println("Result: " + r1);
     }
 
 }

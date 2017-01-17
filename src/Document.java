@@ -5,6 +5,7 @@ import java.util.Map;
  * Created by bartek on 1/14/17.
  */
 public class Document {
+    public String docId; // While scanning a dir, add fileName as its ID!
     public String content;
     public Map<String, Double> keywords;
 
