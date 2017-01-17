@@ -9,10 +9,12 @@ import java.io.IOException;
 public class TestMain1 {
 
     public static void main(String[] args) throws IOException {
+
+
         Graph graph = new SingleGraph("Tutorial 1");
         System.out.println("Working!\n");
-        int k = 2/3;
-        /*
+        //int k = 2/3;
+
         graph.addNode("A");
         graph.addNode("B");
         graph.addNode("C");
@@ -21,11 +23,15 @@ public class TestMain1 {
         graph.addEdge("CA", "C", "A");
 
         graph.display();
-        */
 
-        sGraph myTestGraph = new sGraph();
-        myTestGraph.giveNode("first");
-        myTestGraph.giveNode("second");
+
+        //sGraph myTestGraph = new sGraph();
+        //myTestGraph.giveNode("first");
+       // myTestGraph.giveNode("second");
+
+
+
+
        // myTestGraph.displayGraph();
         /*
         int[] a = {1,2,3,4,5,6,7,8,9};
@@ -50,8 +56,14 @@ public class TestMain1 {
             }
         }
         */
-        myTestGraph.testValues(d);
-        System.out.println("Phase 2 starting...");
+
+
+       // myTestGraph.testValues(d);
+       // System.out.println("Phase 2 starting...");
+
+
+
+
         //myTestGraph.testConnection(d1.keywords, d2.keywords);
         //System.out.println(d1.keywords);
         //System.out.println(d2.keywords);
