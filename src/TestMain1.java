@@ -39,16 +39,18 @@ public class TestMain1 {
        // Document d2 = new Document(SiteDownloader.getContent(SiteDownloader.getSampleUrl2()));
         Data d = new Data();
         System.out.println("Phase 2 starting...");
-
+        /*
         for(Document d1 : d.docs)
         {
             for(Document d2 : d.docs)
             {
                 if (d1 == d2)
                     continue;
-                myTestGraph.testConnection(d1.keywords, d1.docId,  d2.keywords, d2.docId);
+                myTestGraph.AddConnection(d1.keywords, d1.docId,  d2.keywords, d2.docId);
             }
         }
+        */
+        myTestGraph.testValues(d);
         System.out.println("Phase 2 starting...");
         //myTestGraph.testConnection(d1.keywords, d2.keywords);
         //System.out.println(d1.keywords);

@@ -218,10 +218,13 @@ public class sGraph {
 
     private void normalizeEdgeList()
     {
+        System.out.println();
         double currentSum = currentEdgeValSum();
         for(ContainerEdge e : edges)
         {
             e.normalisedConnectionStrength=e.originalConnectionStrength/currentSum;
+            System.out.println("New connection strength: "+e.normalisedConnectionStrength);
+
         }
     }
 
@@ -254,16 +257,25 @@ public class sGraph {
         System.out.println("Similarity: " + cosSim);
     }
 
-    public void testValues(int[] vectorA, int[] vectorB)
+    public void testValues(Data docSet)
     {
-        //int[] t1 = new int[5];
-        int[] t1 = {2,3,4,5,6};
-        int[] t2 = {1,2,3,4,5};
+        // given a list of documents
 
-        //double r1 = cosineSimilarity(vectorA,vectorB);
-        System.out.println("vA: "+toStringI(vectorA));
-        System.out.println("vB: "+toStringI(vectorB));
-        //System.out.println("Result: " + r1);
+
+        int i=0;
+        for(Document d1 : docSet.docs)
+        {
+            for(Document d2 : docSet.docs.subList(i,docSet.docs.size()))
+            {
+                if (d1 == d2 || d1.equals(d2))
+                    continue;
+                else {
+                    this.AddConnection(d1.keywords, d1.docId, d2.keywords, d2.docId);
+                }
+            }
+            i++;
+        }
+        normalizeEdgeList();
     }
 
 }

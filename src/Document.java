@@ -10,6 +10,7 @@ public class Document {
     public Map<String, Double> keywords;
 
     public Document(String _content) throws IOException {
+        this.docId = "randomVal";
         this.content = _content;
         this.keywords = Extractor.getKeywords("SmartStoplist.txt", this.content);
     }
