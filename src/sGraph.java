@@ -8,22 +8,23 @@ import java.util.*;
  */
 public class sGraph {
     private Graph internalGraph;
-    private LinkedList<ContenerEdge> edges;
+    private LinkedList<ContainerEdge> edges;
 
     public sGraph()
     {
+        edges = new LinkedList<ContainerEdge>(); // Instantiate! Otherwise .add doesn't work
         internalGraph = new SingleGraph("internalGraphID");
     }
 
-    private class ContenerEdge
+    private class ContainerEdge
     {
         public String sourceId;
         public String destinationId;
         public double originalConnectionStrength;
         public double normalisedConnectionStrength;
 
-        ContenerEdge(){}
-        ContenerEdge(String sId,String dId, double strength)
+        ContainerEdge(){}
+        ContainerEdge(String sId,String dId, double strength)
         {
             this.sourceId = sId;
             this.destinationId = dId;
@@ -46,6 +47,12 @@ public class sGraph {
 
     public void displayGraph()
     {
+        normalizeEdgeList();
+        //
+        for(ContainerEdge e : edges)
+        {
+            System.out.println(e.normalisedConnectionStrength);
+        }
         internalGraph.display();
     }
 
@@ -199,7 +206,26 @@ public class sGraph {
         return result;
     }
 
-    public void testConnection(Map<String,Double> phraseMap1, String doc1Id, Map<String,Double> phraseMap2, String doc2Id)
+    private double currentEdgeValSum()
+    {
+        double result = 0.0;
+        for(ContainerEdge e : edges)
+        {
+            result+=e.originalConnectionStrength;
+        }
+        return result;
+    }
+
+    private void normalizeEdgeList()
+    {
+        double currentSum = currentEdgeValSum();
+        for(ContainerEdge e : edges)
+        {
+            e.normalisedConnectionStrength=e.originalConnectionStrength/currentSum;
+        }
+    }
+
+    public void AddConnection(Map<String,Double> phraseMap1, String doc1Id, Map<String,Double> phraseMap2, String doc2Id)
     {
         /*
         Map<String,Double> testMap1 = new HashMap();
@@ -221,9 +247,10 @@ public class sGraph {
         int userTop = 3;
 
         Double cosSim = createConnectionFiles(phraseMap1,phraseMap2,userTop);
-        ContenerEdge freshE = new ContenerEdge(doc1Id, doc2Id, cosSim);
+        ContainerEdge freshE = new ContainerEdge(doc1Id, doc2Id, cosSim);
         edges.add(freshE);
-        
+
+
         System.out.println("Similarity: " + cosSim);
     }
 
