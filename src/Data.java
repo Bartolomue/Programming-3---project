@@ -6,6 +6,11 @@ import java.util.List;
  * Created by bartek on 1/15/17.
  */
 public class Data {
+
+    //Test commit
+
+    
+
     public List<Document> docs = new ArrayList<Document>();
 
     public Data() throws IOException {
