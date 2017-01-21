@@ -26,7 +26,7 @@ public class SiteDownloader {
         List<String> linksClean = new ArrayList<>();
 
 //        try {
-//            Document doc = Jsoup.connect(url).get();
+//            DocumentCustom doc = Jsoup.connect(url).get();
 //            // get the page title
 //            String title = doc.title();
 //            System.out.println("title: " + title);

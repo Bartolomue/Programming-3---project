@@ -35,8 +35,8 @@ public class TestMain1 {
 
         //myTestGraph.testConnection();
 
-        Document d1 = new Document(SiteDownloader.getContent(SiteDownloader.getSampleUrl1()));
-        Document d2 = new Document(SiteDownloader.getContent(SiteDownloader.getSampleUrl2()));
+        DocumentCustom d1 = new DocumentCustom(SiteDownloader.getContent(SiteDownloader.getSampleUrl1()));
+        DocumentCustom d2 = new DocumentCustom(SiteDownloader.getContent(SiteDownloader.getSampleUrl2()));
         System.out.println("Phase 2 starting...");
         myTestGraph.testConnection(d1.keywords, d2.keywords);
         //System.out.println(d1.keywords);

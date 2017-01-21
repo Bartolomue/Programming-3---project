@@ -9,15 +9,15 @@ public class Data {
 
     //Test commit
 
-    
 
-    public List<Document> docs = new ArrayList<Document>();
+
+    public List<DocumentCustom> docs = new ArrayList<DocumentCustom>();
 
     public Data() throws IOException {
-        docs.add(new Document(SiteDownloader.getContent(SiteDownloader.getSampleUrl1())));
-        docs.add(new Document(SiteDownloader.getContent(SiteDownloader.getSampleUrl2())));
-        docs.add(new Document(SiteDownloader.getContent(SiteDownloader.getSampleUrl3())));
-        docs.add(new Document(SiteDownloader.getContent(SiteDownloader.getSampleUrl4())));
-        docs.add(new Document(SiteDownloader.getContent(SiteDownloader.getSampleUrl5())));
+        docs.add(new DocumentCustom(SiteDownloader.getContent(SiteDownloader.getSampleUrl1())));
+        docs.add(new DocumentCustom(SiteDownloader.getContent(SiteDownloader.getSampleUrl2())));
+        docs.add(new DocumentCustom(SiteDownloader.getContent(SiteDownloader.getSampleUrl3())));
+        docs.add(new DocumentCustom(SiteDownloader.getContent(SiteDownloader.getSampleUrl4())));
+        docs.add(new DocumentCustom(SiteDownloader.getContent(SiteDownloader.getSampleUrl5())));
     }
 }

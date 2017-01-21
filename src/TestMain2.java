@@ -7,10 +7,10 @@ public class TestMain2 {
     public static void main(String argv[]) throws IOException {
         Data d = new Data();
 
-        for (Document doc : d.docs){
+        for (DocumentCustom doc : d.docs){
             System.out.println(doc.toString());
         }
-//        Document t = new Document(SiteDownloader.getContent("http://en.wikipedia.org/wiki/Boston"));
+//        DocumentCustom t = new DocumentCustom(SiteDownloader.getContent("http://en.wikipedia.org/wiki/Boston"));
 //
 //        for (String s: t.keywords.keySet()
 //             ) {
