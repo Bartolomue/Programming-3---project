@@ -1,27 +1,21 @@
 import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.*;
 import java.nio.file.Path;
 
-public class gui2 extends JFrame implements ActionListener{
+public class Gui extends JFrame implements ActionListener{
 
     private JMenuBar menuBar;
     private JMenu menuFile,  menuHelp;
@@ -32,7 +26,7 @@ public class gui2 extends JFrame implements ActionListener{
     String choosertitle;
     ArrayList<Note> note = new ArrayList();
 
-    public gui2(){
+    public Gui(){
         setTitle("MineYourNotes");
         setSize(800, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -172,7 +166,7 @@ public class gui2 extends JFrame implements ActionListener{
     }
 
     public static void main(String[] args) {
-        gui2 nowy = new gui2();
+        Gui nowy = new Gui();
         nowy.setVisible(true);
     }
 
