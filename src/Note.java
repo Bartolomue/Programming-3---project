@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.UUID;
@@ -6,7 +7,7 @@ import java.util.UUID;
 /**
  * Created by bartek on 1/14/17.
  */
-public class Note {
+public class Note implements Serializable {
     public String id;
     public String name;
     public String content;

@@ -6,12 +6,12 @@ import java.util.Map;
  */
 public class GraphSerialized implements Serializable {
 
-    public static Map<String, Note> vertices;
-    public static Map<String, String> verticesNames;
-    public static Map<String, UnorderedPair<Note>> edges;
-    public static Map<String, Double> edgesWeights;
-    public static Double threshold;
-    public static Integer keywordsNumber;
+    public Map<String, Note> vertices;
+    public Map<String, String> verticesNames;
+    public Map<String, UnorderedPair<Note>> edges;
+    public Map<String, Double> edgesWeights;
+    public Double threshold;
+    public Integer keywordsNumber;
 
     GraphSerialized(){};
 

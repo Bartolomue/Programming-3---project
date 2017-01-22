@@ -3,9 +3,7 @@ import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.Viewer;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -21,6 +19,11 @@ public class Visualization {
     public static Double threshold;
     public static Integer keywordsNumber;
 
+    public Visualization()
+    {
+        this.graph = getGraph();
+    }
+
     public Visualization(List<Note> _notes, double _threshold, int _keywordsNumber) throws IOException {
         this.threshold = _threshold;
         this.vertices = generateVertices(_notes);
@@ -31,12 +34,12 @@ public class Visualization {
     }
 
     public static void main(String argv[]) {
-        drawGraph();
+        //drawGraph();
     }
 
     public static void drawGraph() {
         graph = getGraph();
-
+        //saveGraph("testLocation");
         for (String s : vertices.keySet()) {
 
             String label = verticesNames.get(s) + ": ";
@@ -89,6 +92,7 @@ public class Visualization {
         if(location == null)
         {
             // printour error box
+            System.out.println("No destination file!");
             return;
         }
         else
@@ -104,8 +108,39 @@ public class Visualization {
 
             }catch(IOException e)
             {
-
+                System.out.println("Bullshit, error!");
             }
+        }
+    }
+
+    public static void loadGraph(String ilocation)
+    {
+        try
+        {
+            String location = ilocation + ".bin";
+            ObjectInputStream is =
+                    new ObjectInputStream(new FileInputStream(location));
+            GraphSerialized loadGraph = (GraphSerialized) is.readObject();
+            vertices = loadGraph.vertices;
+            verticesNames=loadGraph.verticesNames;
+            edges = loadGraph.edges;
+            edgesWeights = loadGraph.edgesWeights;
+            threshold = loadGraph.threshold;
+            keywordsNumber = loadGraph.keywordsNumber;
+            //System.out.println("Loaded graph: "+loadMan.name);
+
+            is.close();
+
+            drawGraph();
+        }catch(IOException e)
+        {
+            System.out.println("Error1");
+
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            System.out.println("Error2");
+
         }
     }
 
