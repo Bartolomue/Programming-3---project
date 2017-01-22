@@ -3,7 +3,9 @@ import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.Viewer;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.*;
 
 /**
@@ -80,6 +82,31 @@ public class Visualization {
 
         View view = viewer.getDefaultView();
 
+    }
+
+    public static void saveGraph(String location)
+    {
+        if(location == null)
+        {
+            // printour error box
+            return;
+        }
+        else
+        {
+            GraphSerialized graphDataOut = new GraphSerialized(vertices,verticesNames,edges,edgesWeights,threshold, keywordsNumber);
+            String fileName = location + ".bin";
+            try
+            {
+                ObjectOutputStream os =
+                        new ObjectOutputStream(new FileOutputStream(fileName));
+                os.writeObject(graphDataOut);
+                os.close();
+
+            }catch(IOException e)
+            {
+
+            }
+        }
     }
 
     private static Graph getGraph() {
