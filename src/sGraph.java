@@ -33,6 +33,11 @@ public class sGraph {
 
     }
 
+    private void createGraph()
+    {
+        for(ContainerEdge e: )
+    }
+
     public void giveEdge(String key, String sourceId, String destinationId)
     {
         internalGraph.addEdge(sourceId+destinationId, sourceId, destinationId);
