@@ -12,14 +12,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
-
+import java.nio.file.Path;
 
 public class gui2 extends JFrame implements ActionListener{
 
@@ -28,6 +28,8 @@ public class gui2 extends JFrame implements ActionListener{
     private JMenuItem mOpen, mClose, mSave,mAbout;
     private JTextArea notatnik;
     private JScrollPane scrollpane;
+    private JFileChooser chooser;
+    String choosertitle;
 
     public gui2(){
         setTitle("MineYourNotes");
@@ -76,9 +78,25 @@ public class gui2 extends JFrame implements ActionListener{
         menuBar.add(Box.createHorizontalGlue());
         menuBar.add(menuHelp);
 
-
-
     }
+
+    public void listFilesForFolder(final File folder) throws IOException {             //takes all .txt files from a given folder and its subfolders
+        for (final File fileEntry : folder.listFiles()) {
+            if (fileEntry.isDirectory()) {
+                listFilesForFolder(fileEntry);
+            } else if (fileEntry.getName().endsWith(".txt")){
+                //System.out.println(fileEntry.getName());
+                // tu wywolac funkcje
+              // System.out.println("getSelectedFile() : " +  fileEntry.getAbsolutePath());
+                System.out.println("Chosen file: " +  fileEntry.getName());
+               Path path;
+               path = fileEntry.toPath();
+                Note note = new Note(path);
+            }
+        }
+    }
+
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -98,26 +116,33 @@ public class gui2 extends JFrame implements ActionListener{
         }
         if (source == mOpen)        //After clicking "Open" button
         {
-            JFileChooser fc = new JFileChooser();
-            if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)  //wybrany plik + nacisniety przcisk "OK"
-            {
-                File myfile = fc.getSelectedFile();
-                //JOptionPane.showMessageDialog(null, "Chosen file is "+myfile.getPath());
-                try {
-                    Scanner scaner = new Scanner(myfile);
-                    while(scaner.hasNext())
-                    {
-                        notatnik.append(scaner.nextLine() +"\n");
-                    }
-                }
-                catch (FileNotFoundException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                }
 
+            chooser = new JFileChooser();
+            chooser.setCurrentDirectory(new java.io.File("."));
+            chooser.setDialogTitle(choosertitle);
+            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            //
+            // disable the "All files" option.
+            //
+            chooser.setAcceptAllFileFilterUsed(false);
+
+            if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+               // System.out.println("Current directory: " +  chooser.getCurrentDirectory());
+                System.out.println("Files will be chosen from the directory : " +  chooser.getSelectedFile());
+            }
+            else {
+                System.out.println("No Selection ");
+            }
+
+            try {
+                listFilesForFolder(chooser.getSelectedFile());
+            } catch (IOException e1) {
+                e1.printStackTrace();
             }
 
         }
+
+
 	/*	else if (source == mSave)
 		{
 			JFileChooser fc2 = new JFileChooser();
