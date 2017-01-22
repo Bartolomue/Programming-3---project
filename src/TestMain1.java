@@ -1,7 +1,7 @@
 /**
  * Created by bartek on 11/6/16.
  */
-import org.graphstream.graph.*;
+import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.*;
 
 import java.io.IOException;
@@ -34,11 +34,11 @@ public class TestMain1 {
         */
 
         //myTestGraph.testConnection();
-
-        DocumentCustom d1 = new DocumentCustom(SiteDownloader.getContent(SiteDownloader.getSampleUrl1()));
-        DocumentCustom d2 = new DocumentCustom(SiteDownloader.getContent(SiteDownloader.getSampleUrl2()));
-        System.out.println("Phase 2 starting...");
-        myTestGraph.testConnection(d1.keywords, d2.keywords);
+//
+//        Note d1 = new Note(Text.getSampleLocal1());
+//        Note d2 = new Note(Text.getSampleLocal2());
+//        System.out.println("Phase 2 starting...");
+//        myTestGraph.testConnection(d1.keywords, d2.keywords);
         //System.out.println(d1.keywords);
         //System.out.println(d2.keywords);
     }

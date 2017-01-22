@@ -18,7 +18,7 @@ public class CosineTextSimilarity {
     private final RealVector v1;
     private final RealVector v2;
 
-    CosineTextSimilarity(String s1, String s2) throws IOException {
+    public CosineTextSimilarity(String s1, String s2) throws IOException {
         Directory directory = createIndex(s1, s2);
         IndexReader reader = DirectoryReader.open(directory);
         Map<String, Integer> f1 = getTermFrequencies(reader, 0);
@@ -43,9 +43,8 @@ public class CosineTextSimilarity {
     /* Indexed, tokenized, stored. */
     public static final FieldType TYPE_STORED = new FieldType();
 
-
     static {
-        TYPE_STORED.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
+        TYPE_STORED.setIndexOptions(IndexOptions.DOCS);
         TYPE_STORED.setTokenized(true);
         TYPE_STORED.setStored(true);
         TYPE_STORED.setStoreTermVectors(true);

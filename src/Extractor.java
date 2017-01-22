@@ -28,7 +28,7 @@ public class Extractor {
     private static List<String> loadStopWords(String filePath) throws FileNotFoundException, IOException {
 
         if (filePath == null || filePath.trim().length() == 0) {
-            filePath = "FoxStoplist.txt";
+            filePath = "data/Dictonaries/FoxStoplist.txt";
         }
 
         final List<String> stopWords = new ArrayList<String>();
@@ -195,7 +195,7 @@ public class Extractor {
         final Extractor rakeInstance = new Extractor();
 
         final List<String> sentenceList = rakeInstance.splitSentences(text);
-        final String stopPath = "SmartStoplist.txt";
+        final String stopPath = "data/Dictonaries/SmartStoplist.txt";
         final Pattern stopWordPattern = rakeInstance.buildStopWordRegex(stopPath);
         final List<String> phraseList = rakeInstance.generateCandidateKeywords(sentenceList, stopWordPattern);
         final Map<String, Double> wordScore = rakeInstance.calculateWordScores(phraseList);

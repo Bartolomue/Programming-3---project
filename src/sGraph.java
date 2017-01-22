@@ -1,4 +1,3 @@
-import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.*;
 
 import java.util.*;
@@ -7,7 +6,7 @@ import java.util.*;
  * Created by Maksym on 2017-01-13.
  */
 public class sGraph {
-    private Graph internalGraph;
+    private SingleGraph internalGraph;
 
     public sGraph()
     {

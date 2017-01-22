@@ -1,6 +1,4 @@
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,22 +7,19 @@ import java.util.List;
  */
 public class Data {
 
-    public List<DocumentCustom> docs = new ArrayList<DocumentCustom>();
+    public List<Note> docs = new ArrayList<Note>();
 
     public void getDataFromWeb() throws IOException {
-        docs.add(new DocumentCustom(SiteDownloader.getContent(SiteDownloader.getSampleUrl1())));
-        docs.add(new DocumentCustom(SiteDownloader.getContent(SiteDownloader.getSampleUrl2())));
-        docs.add(new DocumentCustom(SiteDownloader.getContent(SiteDownloader.getSampleUrl3())));
-        docs.add(new DocumentCustom(SiteDownloader.getContent(SiteDownloader.getSampleUrl4())));
-        docs.add(new DocumentCustom(SiteDownloader.getContent(SiteDownloader.getSampleUrl5())));
+        docs.add(new Note(Text.getSampleWeb1(), "A"));
     }
 
     public void getDataLocalFiles() throws IOException {
-        docs.add(new DocumentCustom(getStringFromFile("data/Boston")));
-        docs.add(new DocumentCustom(getStringFromFile("data/New_York")));
+        docs.add(new Note(Text.getSampleLocal1(), "A"));
+        docs.add(new Note(Text.getSampleLocal2(), "B"));
+        docs.add(new Note(Text.getSampleLocal3(), "C"));
+        docs.add(new Note(Text.getSampleLocal4(), "D"));
+        docs.add(new Note(Text.getSampleLocal5(), "E"));
     }
 
-    public String getStringFromFile(String pathToFile) throws IOException {
-        return new String(Files.readAllBytes(Paths.get(pathToFile)));
-    }
+
 }
