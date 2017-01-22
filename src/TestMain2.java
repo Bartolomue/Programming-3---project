@@ -5,16 +5,17 @@ import java.io.IOException;
  */
 public class TestMain2 {
     public static void main(String argv[]) throws IOException {
-        Data d = new Data();
 
-        for (Note doc : d.docs){
-            System.out.println(doc.toString());
+        Visualization v = null;
+        try {
+            SampleData.createFilesFromWeb();
+            v = new Visualization(SampleData.getSampleNotesFromFiles(), 0.86);
+        } catch (Exception e) {
+            System.out.println("Visualization has failed.");
         }
-//        Note t = new Note(Text.getContentSite("http://en.wikipedia.org/wiki/Boston"));
-//
-//        for (String s: t.keywords.keySet()
-//             ) {
-//            System.out.println("Key: " + s + " value: " + t.keywords.get(s));
-//        }
+
+        if (v != null) {
+            v.drawGraph();
+        }
     }
 }

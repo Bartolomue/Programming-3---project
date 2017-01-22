@@ -1,10 +1,7 @@
-import jdk.nashorn.internal.objects.NativeArray;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
-
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by bartek on 1/21/17.
@@ -24,7 +21,6 @@ public class Visualization {
         this.verticesNames = getVerticesNames(this.vertices);
         this.edges = generateEdges(this.vertices);
         this.edgesWeights = getEdgesWeights(this.edges);
-        drawGraph();
     }
 
     public static void main(String argv[]) {
@@ -37,14 +33,6 @@ public class Visualization {
         for (String s : vertices.keySet()) {
             graph.addNode(s).addAttribute("ui.label", verticesNames.get(s));
         }
-//
-//        graph.addNode("A").addAttribute("ui.label", "A");
-//        graph.addNode("B").addAttribute("ui.id", "asdfasdfasdfasd");
-//        graph.addNode("C");
-//
-//        graph.addEdge("AB", "A", "B");
-//        //graph.addEdge("BA", "A", "B");
-//        graph.addEdge("CB", "C", "B");
 
         for (String s : edges.keySet()) {
             if (edgesWeights.get(s) > threshold) {
@@ -79,7 +67,6 @@ public class Visualization {
         return graph;
     }
 
-    //remove notes with empty content
     private static Map<String, Note> generateVertices(List<Note> notes) {
 
         if (notes.isEmpty()) {
@@ -142,7 +129,6 @@ public class Visualization {
         return id2Edge;
     }
 
-
     private static Map<String, Double> getEdgesWeights(Map<String, UnorderedPair<Note>> edges)
             throws IOException {
 
@@ -176,9 +162,4 @@ public class Visualization {
 
         return edgesWeights;
     }
-
-
-
-
-
 }

@@ -20,7 +20,7 @@ public class Note {
     }
 
     public Note(Path path) throws IOException {
-        this(Text.getFileNameByPath(path), Text.getContentFile(path));
+        this(TextFile.getFileNameByPath(path), TextFile.getContentFile(path));
     }
 
 }

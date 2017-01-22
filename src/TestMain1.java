@@ -35,8 +35,8 @@ public class TestMain1 {
 
         //myTestGraph.testConnection();
 //
-//        Note d1 = new Note(Text.getSampleLocal1());
-//        Note d2 = new Note(Text.getSampleLocal2());
+//        Note d1 = new Note(TextFile.getSampleLocal1());
+//        Note d2 = new Note(TextFile.getSampleLocal2());
 //        System.out.println("Phase 2 starting...");
 //        myTestGraph.testConnection(d1.keywords, d2.keywords);
         //System.out.println(d1.keywords);
