@@ -9,7 +9,7 @@ public class TestMain2 {
         Visualization v = null;
         try {
             SampleData.createFilesFromWeb();
-            v = new Visualization(SampleData.getSampleNotesFromFiles(), 0.86);
+            v = new Visualization(SampleData.getSampleNotesFromFiles(), 0.83);
         } catch (Exception e) {
             System.out.println("Visualization has failed.");
         }
