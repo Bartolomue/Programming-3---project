@@ -30,6 +30,7 @@ public class gui2 extends JFrame implements ActionListener{
     private JScrollPane scrollpane;
     private JFileChooser chooser;
     String choosertitle;
+    ArrayList<Note> note = new ArrayList();
 
     public gui2(){
         setTitle("MineYourNotes");
@@ -57,7 +58,7 @@ public class gui2 extends JFrame implements ActionListener{
         menuFile.add(mClose);
 
         mClose.addActionListener(this);
-        mClose.setAccelerator(KeyStroke.getKeyStroke("ctrl X"));  //Allows closing program by pressing combination Ctrl+x
+        mClose.setAccelerator(KeyStroke.getKeyStroke("ctrl X"));  //Allows to close a program by the combination Ctrl+x
 
 
         mAbout = new JMenuItem("About");
@@ -91,7 +92,8 @@ public class gui2 extends JFrame implements ActionListener{
                 System.out.println("Chosen file: " +  fileEntry.getName());
                Path path;
                path = fileEntry.toPath();
-                Note note = new Note(path);
+                //Note note = new Note(path);
+                note.add(new Note(path));
             }
         }
     }
@@ -104,13 +106,13 @@ public class gui2 extends JFrame implements ActionListener{
 
         if(source == mClose)
         {
-            int odpowiedz = JOptionPane.showConfirmDialog(this, "Close? ","Close", JOptionPane.YES_NO_OPTION);
+            int respond = JOptionPane.showConfirmDialog(this, "Close? ","Close", JOptionPane.YES_NO_OPTION);
 
-            if(odpowiedz == JOptionPane.YES_OPTION)
+            if(respond == JOptionPane.YES_OPTION)
                 dispose();
 
         }
-        if (source == mAbout)
+        if (source == mAbout)   //if "About" button was chosen
         {
             JOptionPane.showMessageDialog(this, " Mikołaj Kida, \n Maks Stec, \n Bartłomiej Wichowski, \n Piotr Radomski","Authors:",JOptionPane.INFORMATION_MESSAGE);
         }
