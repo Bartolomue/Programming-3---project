@@ -1,5 +1,8 @@
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.view.View;
+import org.graphstream.ui.view.Viewer;
+
 import java.io.IOException;
 import java.util.*;
 
@@ -56,7 +59,10 @@ public class Visualization {
             }
         }
 
-        graph.display();
+        Viewer viewer = graph.display();
+
+        View view = viewer.getDefaultView();
+
     }
 
     private static Graph getGraph() {

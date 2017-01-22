@@ -23,8 +23,14 @@ public class TextFile {
     }
 
     public static String getContentSite(String url) throws IOException {
-        Document doc = Jsoup.connect(url).get();
-        Element contentDiv = doc.select("div[id=content]").first();
+        Element contentDiv = null;
+        try {
+            Document doc = Jsoup.connect(url).get();
+            contentDiv = doc.select("div[id=content]").first();
+        } catch (Exception e) {
+            System.out.println("Error occured while getting content from website: " + url);
+        }
+
         return contentDiv.text();
     }
 
@@ -51,7 +57,7 @@ public class TextFile {
     }
 
     private static String validateFileName(String fileName) {
-        String fileNameValid = fileName.replaceAll("\\W+", "");
+        String fileNameValid = fileName.replaceAll(" ", "_").replaceAll("[^a-zA-Z0-9.-_]", "-");
         if (!fileName.equals(fileNameValid)) {
             System.out.println("File name was not valid, therefore was changed.");
         }

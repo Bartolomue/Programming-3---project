@@ -11,8 +11,9 @@ public class SampleData {
 
     public static List<Note> docs = new ArrayList<Note>();
 
-    private static final List<String> sampleTopics = Arrays.asList("History", "Ancient_Greece",
-            "Logic", "Mathematics", "Pattern", "Warsaw", "Boston", "New_York", "London", "Kraków", "Math");
+    private static final List<String> sampleTopics = Arrays.asList("History", "Ancient_Greece", "Computer_science",
+            "Logic", "Mathematics", "Pattern", "Warsaw", "Boston", "New_York", "London", "Kraków", "Math",
+            "Information", "Bernoulli_number", "Binary_number");
     private static final String sampleUrl = "https://en.wikipedia.org/wiki/";
     private static final String sampleFolderPath = "data" + java.io.File.separator + "Files";
 
@@ -29,9 +30,15 @@ public class SampleData {
 
     public static List<Note> getSampleNotesFromFiles() throws IOException {
         List<Note> notes = new ArrayList<>();
-        for (String topic : sampleTopics) {
-            notes.add(new Note(Paths.get(TextFile.buildPath(sampleFolderPath, topic))));
+
+        try {
+            for (String topic : sampleTopics) {
+                notes.add(new Note(Paths.get(TextFile.buildPath(sampleFolderPath, topic))));
+            }
+        } catch (Exception e) {
+            System.out.println("Note creation error.");
         }
+
         return notes;
     }
 
