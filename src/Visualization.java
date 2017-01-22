@@ -1,7 +1,8 @@
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
-import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.Viewer;
+import org.graphstream.ui.view.ViewerListener;
+import org.graphstream.ui.view.ViewerPipe;
 
 import java.io.*;
 import java.util.*;
@@ -9,7 +10,7 @@ import java.util.*;
 /**
  * Created by bartek on 1/21/17.
  */
-public class Visualization {
+public class Visualization implements ViewerListener {
 
     public static Graph graph;
     public static Map<String, Note> vertices;
@@ -18,6 +19,8 @@ public class Visualization {
     public static Map<String, Double> edgesWeights;
     public static Double threshold;
     public static Integer keywordsNumber;
+
+    protected boolean loop = true;
 
     public Visualization()
     {
@@ -37,7 +40,7 @@ public class Visualization {
         //drawGraph();
     }
 
-    public static void drawGraph() {
+    public void drawGraph() {
         graph = getGraph();
         //saveGraph("testLocation");
         for (String s : vertices.keySet()) {
@@ -82,8 +85,26 @@ public class Visualization {
         }
 
         Viewer viewer = graph.display();
+        viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
 
-        View view = viewer.getDefaultView();
+        ViewerPipe fromViewer = viewer.newViewerPipe();
+        fromViewer.addViewerListener(this);
+        fromViewer.addSink(graph);
+
+        while(loop) {
+            fromViewer.pump(); // or fromViewer.blockingPump(); in the nightly builds
+
+            // here your simulation code.
+
+            // You do not necessarily need to use a loop, this is only an example.
+            // as long as you call pump() before using the graph. pump() is non
+            // blocking.  If you only use the loop to look at event, use blockingPump()
+            // to avoid 100% CPU usage. The blockingPump() method is only available from
+            // the nightly builds.
+        }
+
+//        View view = viewer.getDefaultView();
+
 
     }
 
@@ -113,7 +134,7 @@ public class Visualization {
         }
     }
 
-    public static void loadGraph(String ilocation)
+    public void loadGraph(String ilocation)
     {
         try
         {
@@ -246,5 +267,17 @@ public class Visualization {
         }
 
         return edgesWeights;
+    }
+
+    public void viewClosed(String id) {
+        loop = false;
+    }
+
+    public void buttonPushed(String id) {
+        System.out.println("Button pushed on node "+id);
+    }
+
+    public void buttonReleased(String id) {
+        System.out.println("Button released on node "+id);
     }
 }
