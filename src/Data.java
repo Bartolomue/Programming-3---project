@@ -14,11 +14,12 @@ public class Data {
     }
 
     public void getDataLocalFiles() throws IOException {
-        docs.add(new Note(Text.getSampleLocal1(), "A"));
-        docs.add(new Note(Text.getSampleLocal2(), "B"));
-        docs.add(new Note(Text.getSampleLocal3(), "C"));
-        docs.add(new Note(Text.getSampleLocal4(), "D"));
-        docs.add(new Note(Text.getSampleLocal5(), "E"));
+        docs.add(new Note(Text.getSamplePath1()));
+        docs.add(new Note(Text.getSamplePath2()));
+        docs.add(new Note(Text.getSamplePath3()));
+        docs.add(new Note(Text.getSamplePath4()));
+        docs.add(new Note(Text.getSamplePath5()));
+
     }
 
 

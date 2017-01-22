@@ -1,0 +1,32 @@
+graph {
+	fill-color: grey;
+}
+
+node {
+	size: 20px, 20px;
+	shape: box;
+	fill-color: green;
+	stroke-mode: plain;
+	stroke-color: yellow;
+	text-size: 15;
+	text-style: bold;
+	text-color: white;
+}
+
+node.start {
+    shape: box;
+    size: 25px, 25px;
+    fill-mode: plain;   /* Default.          */
+    fill-color: red;    /* Default is black. */
+    stroke-mode: plain; /* Default is none.  */
+    stroke-color: green; /* Default is black. */
+}
+
+node:clicked {
+	fill-color: yellow;
+}
+
+node.manyColors {
+    fill-color: red, green, blue;
+    fill-mode: dyn-plain;
+}

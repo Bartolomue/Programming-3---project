@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -86,9 +87,25 @@ public class Text {
         return contentDiv.text();
     }
 
-    private static String getContentFile(String pathToFile) throws IOException {
+    public static String getContentFile(String pathToFile) throws IOException {
         return new String(Files.readAllBytes(Paths.get(pathToFile)));
     }
+
+    public static String getContentFile(Path path) throws IOException {
+        if (path == null) {
+            throw new IllegalArgumentException("Wrong path.");
+        }
+        return new String(Files.readAllBytes(path));
+    }
+
+    public static String getFileNameByPath(Path path) {
+        if (path == null) {
+            throw new IllegalArgumentException("Wrong path.");
+        }
+        return path.getFileName().toString();
+    }
+
+
 
     private static String validateFileName(String fileName) {
         return fileName.replaceAll("\\W+", "");
@@ -106,23 +123,29 @@ public class Text {
         return getContentSite(buildSampleUrl(sampleUrl, list.get(0)));
     }
 
-    public static String getSampleLocal1() throws IOException {
+    public static String getSampleLocal() throws IOException {
         return getContentFile(buildPath(folderPath, validateFileName(list.get(0))));
     }
 
-    public static String getSampleLocal2() throws IOException {
-        return getContentFile(buildPath(folderPath, validateFileName(list.get(1))));
+    public static Path getSamplePath1() throws IOException {
+        return Paths.get(buildPath(folderPath, validateFileName(list.get(0))));
     }
 
-    public static String getSampleLocal3() throws IOException {
-        return getContentFile(buildPath(folderPath, validateFileName(list.get(2))));
+    public static Path getSamplePath2() throws IOException {
+        return Paths.get(buildPath(folderPath, validateFileName(list.get(1))));
     }
 
-    public static String getSampleLocal4() throws IOException {
-        return getContentFile(buildPath(folderPath, validateFileName(list.get(3))));
+    public static Path getSamplePath3() throws IOException {
+        return Paths.get(buildPath(folderPath, validateFileName(list.get(2))));
     }
 
-    public static String getSampleLocal5() throws IOException {
-        return getContentFile(buildPath(folderPath, validateFileName(list.get(4))));
+    public static Path getSamplePath4() throws IOException {
+        return Paths.get(buildPath(folderPath, validateFileName(list.get(3))));
     }
+
+    public static Path getSamplePath5() throws IOException {
+        return Paths.get(buildPath(folderPath, validateFileName(list.get(4))));
+    }
+
+
 }

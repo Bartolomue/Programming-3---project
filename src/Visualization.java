@@ -1,11 +1,10 @@
+import jdk.nashorn.internal.objects.NativeArray;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by bartek on 1/21/17.
@@ -13,68 +12,133 @@ import java.util.Set;
 public class Visualization {
 
     public static Graph graph;
-    public static List<Note> vertices;
-    public static Set<UnorderedPair<Note>> edges;
+    public static Map<String, Note> vertices;
+    public static Map<String, String> verticesNames;
+    public static Map<String, UnorderedPair<Note>> edges;
+    public static Map<String, Double> edgesWeights;
     public static Double threshold;
 
     public Visualization(List<Note> _notes, double _threshold) throws IOException {
-        this.vertices = generateVertices(_notes);
         this.threshold = _threshold;
-        this.edges = generateEdges(this.vertices, this.threshold);
+        this.vertices = generateVertices(_notes);
+        this.verticesNames = getVerticesNames(this.vertices);
+        this.edges = generateEdges(this.vertices);
+        this.edgesWeights = getEdgesWeights(this.edges);
+        drawGraph();
+    }
+
+    public static void main(String argv[]) {
         drawGraph();
     }
 
     public static void drawGraph() {
-        graph = new SingleGraph("Test");
+        graph = getGraph();
 
-        Integer i = 0;
-        for (Note n : vertices) {
-            graph.getNode(n.name);
+        for (String s : vertices.keySet()) {
+            graph.addNode(s).addAttribute("ui.label", verticesNames.get(s));
         }
+//
+//        graph.addNode("A").addAttribute("ui.label", "A");
+//        graph.addNode("B").addAttribute("ui.id", "asdfasdfasdfasd");
+//        graph.addNode("C");
+//
+//        graph.addEdge("AB", "A", "B");
+//        //graph.addEdge("BA", "A", "B");
+//        graph.addEdge("CB", "C", "B");
 
-        graph.addNode("A");
-        graph.addNode("B");
-        graph.addNode("C");
-
-        graph.addEdge("AB", "A", "B");
-        graph.addEdge("BA", "A", "B");
-        graph.addEdge("CB", "C", "B");
+        for (String s : edges.keySet()) {
+            if (edgesWeights.get(s) > threshold) {
+                graph.addEdge("CB", "C", "B");
+            }
+        }
 
         graph.display();
     }
 
-    //remove notes with empty content
-    public static List<Note> generateVertices(List<Note> notes) {
-        for (Note n : notes) {
-            if (n.content.isEmpty() || n.content == "") {
-                notes.remove(n);
-            }
-        }
-        return notes;
+    private static Graph getGraph() {
+        Graph graph = new SingleGraph("Test");
+        graph.addAttribute("ui.stylesheet", "url('data/Styles/graph.css')");
+        graph.addAttribute("ui.quality");
+        graph.addAttribute("ui.antialias");
+        return graph;
     }
 
-    public static Set<UnorderedPair<Note>> generateEdges(List<Note> notes, Double threshold) throws IOException {
-        if (notes.isEmpty() || (null == threshold)) {
-            throw new IllegalArgumentException();
+    //remove notes with empty content
+    private static Map<String, Note> generateVertices(List<Note> notes) {
+
+        if (notes.isEmpty()) {
+            throw new IllegalArgumentException("List is empty.");
         }
 
-        Set<UnorderedPair<Note>> edges = new HashSet<>();
+        Map<String, Note> notesWithContent = new HashMap<>();
 
-        for (int i = 0; i < notes.size(); i++) {
-            for (int j = 0; j < notes.size(); j++) {
-                if (i == j) {
-                    continue;
-                }
-                //double check for notes with empty content
-                if (!notes.get(i).content.isEmpty() && !notes.get(i).content.isEmpty()) {
-                    edges.add(new UnorderedPair<>(notes.get(i), notes.get(j)));
+        for (Note n : notes) {
+            String uniqueId = UUID.randomUUID().toString();
+            if (!(n.content.isEmpty() || n.content == "")) {
+                if (!notesWithContent.containsKey(uniqueId)) {
+                    notesWithContent.put(uniqueId, n);
                 }
             }
         }
 
-        Iterator<UnorderedPair<Note>> itEdges = edges.iterator();
-        while (itEdges.hasNext()) {
-            Iterator<Note> it = itEdges.next().set.iterator();
+        return notesWithContent;
+    }
+
+
+    private static Map<String, String> getVerticesNames(Map<String, Note> vertices) {
+        if (vertices.isEmpty()) {
+            throw new IllegalArgumentException("Map is empty.");
+        }
+
+        Map<String, String> notesNames = new HashMap<>();
+
+        for (String s : vertices.keySet()) {
+            if (!notesNames.containsKey(s)) {
+                notesNames.put(s, vertices.get(s).name);
+            }
+        }
+
+        return notesNames;
+    }
+
+    private static Map<String, UnorderedPair<Note>> generateEdges(Map<String, Note> id2Note) {
+        if (id2Note.isEmpty()) {
+            throw new IllegalArgumentException("Map is empty.");
+        }
+
+        Set<UnorderedPair<Note>> allEdges = new HashSet<>();
+
+        for (Note n1 : id2Note.values()) {
+            for (Note n2 : id2Note.values()) {
+                if (n1 == n2) {
+                    continue;
+                }
+                allEdges.add(new UnorderedPair<>(n1, n2));
+            }
+        }
+
+        Map<String, UnorderedPair<Note>> id2Edge = new HashMap<>();
+
+        for (UnorderedPair p : allEdges) {
+            String uniqueId = UUID.randomUUID().toString();
+            id2Edge.put(uniqueId, p);
+        }
+
+        return id2Edge;
+    }
+
+
+    private static Map<String, Double> getEdgesWeights(Map<String, UnorderedPair<Note>> edges)
+            throws IOException {
+
+        if (edges.isEmpty()) {
+            throw new IllegalArgumentException("Map is empty.");
+        }
+
+        Map<String, Double> edgesWeights = new HashMap<>();
+
+        for (String s : edges.keySet()) {
+            Iterator<Note> it = edges.get(s).set.iterator();
             Note n1 = null;
             Note n2 = null;
 
@@ -85,19 +149,17 @@ public class Visualization {
             if (it.hasNext()) {
                 n2 = it.next();
             }
-
             if (n1 != null && n2 != null) {
                 System.out.println("Ok");
             } else {
                 throw new IllegalArgumentException("Notes should be paired in order to create edge.");
             }
 
-            if (!(CosineTextSimilarity.getCosineSimilarity(n1.content, n2.content) > threshold)) {
-                itEdges.remove();
-            }
+            Double similarity = CosineTextSimilarity.getCosineSimilarity(n1.content, n2.content);
+            edgesWeights.put(s, similarity);
         }
 
-        return edges;
+        return edgesWeights;
     }
 
 

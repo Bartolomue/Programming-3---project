@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Map;
 
 /**
@@ -9,10 +10,14 @@ public class Note {
     public String content;
     public Map<String, Double> keywords;
 
-    public Note(String _content, String _name) throws IOException {
+    public Note(String _name, String _content) throws IOException {
         this.name = _name;
         this.content = _content;
         //this.keywords = Extractor.getKeywords("data/Dictonaries/SmartStoplist.txt", this.content);
+    }
+
+    public Note(Path path) throws IOException {
+        this(Text.getFileNameByPath(path), Text.getContentFile(path));
     }
 
 }
