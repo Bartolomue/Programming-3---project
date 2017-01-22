@@ -34,7 +34,10 @@ public class Visualization {
 
         graph.addNode("A");
         graph.addNode("B");
+        graph.addNode("C");
+
         graph.addEdge("AB", "A", "B");
+        graph.addEdge("CB", "C", "B");
 
         graph.display();
     }
