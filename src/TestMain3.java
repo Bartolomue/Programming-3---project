@@ -14,7 +14,7 @@ public class TestMain3 {
         Data d = new Data();
         d.getDataLocalFiles();
 
-        Visualization v = new Visualization(d.docs, 0.85);
+        Visualization v = new Visualization(d.docs, 0.87);
 
     }
 }

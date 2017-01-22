@@ -48,7 +48,23 @@ public class Visualization {
 
         for (String s : edges.keySet()) {
             if (edgesWeights.get(s) > threshold) {
-                graph.addEdge("CB", "C", "B");
+                Iterator<Note> it = edges.get(s).set.iterator();
+                Note n1 = null;
+                Note n2 = null;
+
+                if (it.hasNext()) {
+                    n1 = it.next();
+                }
+
+                if (it.hasNext()) {
+                    n2 = it.next();
+                }
+                if (n1 != null && n2 != null) {
+                    System.out.println("Ok");
+                } else {
+                    throw new IllegalArgumentException("Notes should be paired in order to create edge.");
+                }
+                graph.addEdge(s, n1.id, n2.id);
             }
         }
 
@@ -73,10 +89,9 @@ public class Visualization {
         Map<String, Note> notesWithContent = new HashMap<>();
 
         for (Note n : notes) {
-            String uniqueId = UUID.randomUUID().toString();
             if (!(n.content.isEmpty() || n.content == "")) {
-                if (!notesWithContent.containsKey(uniqueId)) {
-                    notesWithContent.put(uniqueId, n);
+                if (!notesWithContent.containsKey(n.id)) {
+                    notesWithContent.put(n.id , n);
                 }
             }
         }

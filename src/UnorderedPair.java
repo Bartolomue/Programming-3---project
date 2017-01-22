@@ -15,7 +15,6 @@ public class UnorderedPair<T> {
         if (!set.add(b)) {
             //throw new IllegalArgumentException();
         }
-
     }
 
     @Override
