@@ -4,8 +4,11 @@ import org.graphstream.ui.view.Viewer;
 import org.graphstream.ui.view.ViewerListener;
 import org.graphstream.ui.view.ViewerPipe;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.util.*;
+import java.util.List;
 
 /**
  * Created by bartek on 1/21/17.
@@ -275,6 +278,11 @@ public class Visualization implements ViewerListener {
 
     public void buttonPushed(String id) {
         System.out.println("Button pushed on node "+id);
+        Editor e = new Editor(vertices.get(id));
+        JFrame f = new JFrame();
+        f.setMinimumSize(new Dimension(530, 330));
+        f.add(e);
+        f.setVisible(true);
     }
 
     public void buttonReleased(String id) {
