@@ -1,4 +1,6 @@
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -28,12 +30,12 @@ public class Extractor {
     private static List<String> loadStopWords(String filePath) throws FileNotFoundException, IOException {
 
         if (filePath == null || filePath.trim().length() == 0) {
-            filePath = "data/Dictonaries/FoxStoplist.txt";
+            filePath = "data/Dictionaries/FoxStoplist.txt";
         }
 
         final List<String> stopWords = new ArrayList<String>();
-        final BufferedReader br = new BufferedReader(new InputStreamReader(Extractor.class.getResourceAsStream(filePath)));
-
+        final BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath),
+                StandardCharsets.UTF_8));
         try {
 
             String line = br.readLine();
@@ -195,7 +197,7 @@ public class Extractor {
         final Extractor rakeInstance = new Extractor();
 
         final List<String> sentenceList = rakeInstance.splitSentences(text);
-        final String stopPath = "data/Dictonaries/SmartStoplist.txt";
+        final String stopPath = "data/Dictionaries/SmartStoplist.txt";
         final Pattern stopWordPattern = rakeInstance.buildStopWordRegex(stopPath);
         final List<String> phraseList = rakeInstance.generateCandidateKeywords(sentenceList, stopWordPattern);
         final Map<String, Double> wordScore = rakeInstance.calculateWordScores(phraseList);

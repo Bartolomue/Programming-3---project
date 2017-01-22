@@ -16,7 +16,7 @@ public class Note {
         this.id = UUID.randomUUID().toString();
         this.name = _name;
         this.content = _content;
-        //this.keywords = Extractor.getKeywords("data/Dictonaries/SmartStoplist.txt", this.content);
+        this.keywords = Extractor.getKeywords("data/Dictionaries/SmartStoplist.txt", this.content);
     }
 
     public Note(Path path) throws IOException {

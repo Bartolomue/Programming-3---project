@@ -8,7 +8,7 @@ public class TestMain2 {
 
         Visualization v = null;
         try {
-            SampleData.createFilesFromWeb();
+            //SampleData.createFilesFromWeb();
             v = new Visualization(SampleData.getSampleNotesFromFiles(), 0.85);
         } catch (Exception e) {
             System.out.println("Visualization has failed.");
