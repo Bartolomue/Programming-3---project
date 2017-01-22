@@ -17,13 +17,15 @@ public class Visualization {
     public static Map<String, UnorderedPair<Note>> edges;
     public static Map<String, Double> edgesWeights;
     public static Double threshold;
+    public static Integer keywordsNumber;
 
-    public Visualization(List<Note> _notes, double _threshold) throws IOException {
+    public Visualization(List<Note> _notes, double _threshold, int _keywordsNumber) throws IOException {
         this.threshold = _threshold;
         this.vertices = generateVertices(_notes);
         this.verticesNames = getVerticesNames(this.vertices);
         this.edges = generateEdges(this.vertices);
         this.edgesWeights = getEdgesWeights(this.edges);
+        this.keywordsNumber = _keywordsNumber;
     }
 
     public static void main(String argv[]) {
@@ -34,7 +36,22 @@ public class Visualization {
         graph = getGraph();
 
         for (String s : vertices.keySet()) {
-            graph.addNode(s).addAttribute("ui.label", verticesNames.get(s));
+
+            String label = verticesNames.get(s) + ": ";
+
+            Integer i = 0;
+            List<String> keywords = new ArrayList<String>();
+            for (String keyword : vertices.get(s).keywords.keySet()) {
+                if (i > keywordsNumber) {
+                    break;
+                }
+                keywords.add(keyword);
+                i++;
+            }
+
+            label += String.join(", ", keywords);
+
+            graph.addNode(s).addAttribute("ui.label", label);
         }
 
         for (String s : edges.keySet()) {

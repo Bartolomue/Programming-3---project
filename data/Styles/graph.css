@@ -3,12 +3,12 @@ graph {
 }
 
 node {
-	size: 20px, 20px;
+	size: 10px, 10px;
 	shape: box;
 	fill-color: green;
 	stroke-mode: plain;
 	stroke-color: yellow;
-	text-size: 15;
+	text-size: 11;
 	text-style: bold;
 	text-color: white;
 }
