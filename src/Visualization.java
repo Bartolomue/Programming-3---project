@@ -279,7 +279,7 @@ public class Visualization implements ViewerListener {
     public void buttonPushed(String id) {
         System.out.println("Button pushed on node "+id);
         Editor e = new Editor(vertices.get(id));
-        JFrame f = new JFrame();
+        JFrame f = new JFrame(verticesNames.get(id));
         f.setMinimumSize(new Dimension(530, 330));
         f.add(e);
         f.setVisible(true);
