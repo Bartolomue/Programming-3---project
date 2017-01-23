@@ -4,7 +4,7 @@ import java.io.IOException;
  * Created by bartek on 1/14/17.
  */
 public class TestMain2 {
-    public static void main(String argv[]) throws IOException {
+    public static void main(String argv[]) throws IOException, InterruptedException {
 
         Visualization v = null;
         try {

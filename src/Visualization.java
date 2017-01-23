@@ -1,5 +1,6 @@
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.swingViewer.ViewPanel;
 import org.graphstream.ui.view.Viewer;
 import org.graphstream.ui.view.ViewerListener;
 import org.graphstream.ui.view.ViewerPipe;
@@ -16,6 +17,7 @@ import java.util.List;
 public class Visualization implements ViewerListener {
 
     public static Graph graph;
+    public static ViewPanel view;
     public static Map<String, Note> vertices;
     public static Map<String, String> verticesNames;
     public static Map<String, UnorderedPair<Note>> edges;
@@ -43,7 +45,7 @@ public class Visualization implements ViewerListener {
         //drawGraph();
     }
 
-    public void drawGraph() {
+    public void drawGraph() throws InterruptedException {
         graph = getGraph();
         //saveGraph("testLocation");
         for (String s : vertices.keySet()) {
@@ -88,14 +90,18 @@ public class Visualization implements ViewerListener {
         }
 
         Viewer viewer = graph.display();
+
         viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
 
         ViewerPipe fromViewer = viewer.newViewerPipe();
         fromViewer.addViewerListener(this);
         fromViewer.addSink(graph);
 
+
+        view = viewer.getDefaultView();
+
         while(loop) {
-            fromViewer.pump(); // or fromViewer.blockingPump(); in the nightly builds
+            fromViewer.blockingPump(); // or fromViewer.blockingPump(); in the nightly builds
 
             // here your simulation code.
 
@@ -106,13 +112,13 @@ public class Visualization implements ViewerListener {
             // the nightly builds.
         }
 
-//        View view = viewer.getDefaultView();
-
-
     }
 
-    public static void saveGraph(String location)
-    {
+    public static ViewPanel getView() {
+        return view;
+    }
+
+    public static void saveGraph(String location) {
         if(location == null)
         {
             // printour error box
@@ -137,8 +143,7 @@ public class Visualization implements ViewerListener {
         }
     }
 
-    public void loadGraph(String ilocation)
-    {
+    public void loadGraph(String ilocation) throws InterruptedException {
         try
         {
             String location = ilocation + ".bin";

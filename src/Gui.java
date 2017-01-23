@@ -1,19 +1,10 @@
-import javax.swing.Box;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.KeyStroke;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
 import java.nio.file.Path;
+import java.util.ArrayList;
 
 public class Gui extends JFrame implements ActionListener{
 
@@ -165,9 +156,14 @@ public class Gui extends JFrame implements ActionListener{
 		*/
     }
 
-    public static void main(String[] args) {
-        Gui nowy = new Gui();
-        nowy.setVisible(true);
+    public static void main(String[] args) throws IOException, InterruptedException {
+        Visualization v = new Visualization(SampleData.getSampleNotesFromFiles(), 0.85, 1);
+        v.drawGraph();
+
+        Gui g = new Gui();
+        g.add(v.getView());
+        g.setVisible(true);
+
     }
 
 
