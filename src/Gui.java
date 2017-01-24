@@ -6,18 +6,18 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
-public class Gui extends JFrame implements ActionListener{
+public class Gui extends JFrame implements ActionListener {
 
     private JMenuBar menuBar;
-    private JMenu menuFile,  menuHelp;
-    private JMenuItem mOpen, mClose, mSave,mAbout;
+    private JMenu menuFile, menuHelp;
+    private JMenuItem mOpen, mClose, mSave, mAbout, mStart;
     private JTextArea notatnik;
     private JScrollPane scrollpane;
     private JFileChooser chooser;
     String choosertitle;
-    ArrayList<Note> note = new ArrayList();
+    public static ArrayList<Note> note = new ArrayList();
 
-    public Gui(){
+    public Gui() {
         setTitle("MineYourNotes");
         setSize(800, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -35,10 +35,14 @@ public class Gui extends JFrame implements ActionListener{
         mSave = new JMenuItem("Save");
         mSave.addActionListener(this);
 
+        mStart = new JMenuItem("Start");
+        mStart.addActionListener(this);
+
         mClose = new JMenuItem("Close");
 
         menuFile.add(mOpen);
         menuFile.add(mSave);
+        menuFile.add(mStart);
         menuFile.addSeparator();
         menuFile.add(mClose);
 
@@ -60,7 +64,6 @@ public class Gui extends JFrame implements ActionListener{
 		*/
 
 
-
         menuBar.add(Box.createHorizontalGlue());
         menuBar.add(menuHelp);
 
@@ -70,13 +73,13 @@ public class Gui extends JFrame implements ActionListener{
         for (final File fileEntry : folder.listFiles()) {
             if (fileEntry.isDirectory()) {
                 listFilesForFolder(fileEntry);
-            } else if (fileEntry.getName().endsWith(".txt")){
+            } else if (fileEntry.getName().endsWith(".txt")) {
                 //System.out.println(fileEntry.getName());
                 // tu wywolac funkcje
-              // System.out.println("getSelectedFile() : " +  fileEntry.getAbsolutePath());
-                System.out.println("Chosen file: " +  fileEntry.getName());
-               Path path;
-               path = fileEntry.toPath();
+                // System.out.println("getSelectedFile() : " +  fileEntry.getAbsolutePath());
+                System.out.println("Chosen file: " + fileEntry.getName());
+                Path path;
+                path = fileEntry.toPath();
                 //Note note = new Note(path);
                 note.add(new Note(path));
             }
@@ -84,22 +87,20 @@ public class Gui extends JFrame implements ActionListener{
     }
 
 
-
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 
-        if(source == mClose)
-        {
-            int respond = JOptionPane.showConfirmDialog(this, "Close? ","Close", JOptionPane.YES_NO_OPTION);
+        if (source == mClose) {
+            int respond = JOptionPane.showConfirmDialog(this, "Close? ", "Close", JOptionPane.YES_NO_OPTION);
 
-            if(respond == JOptionPane.YES_OPTION)
+            if (respond == JOptionPane.YES_OPTION)
                 dispose();
 
         }
         if (source == mAbout)   //if "About" button was chosen
         {
-            JOptionPane.showMessageDialog(this, " Mikołaj Kida, \n Maks Stec, \n Bartłomiej Wichowski, \n Piotr Radomski","Authors:",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, " Mikołaj Kida, \n Maks Stec, \n Bartłomiej Wichowski, \n Piotr Radomski", "Authors:", JOptionPane.INFORMATION_MESSAGE);
         }
         if (source == mOpen)        //After clicking "Open" button
         {
@@ -114,10 +115,9 @@ public class Gui extends JFrame implements ActionListener{
             chooser.setAcceptAllFileFilterUsed(false);
 
             if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-               // System.out.println("Current directory: " +  chooser.getCurrentDirectory());
-                System.out.println("Files will be chosen from the directory : " +  chooser.getSelectedFile());
-            }
-            else {
+                // System.out.println("Current directory: " +  chooser.getCurrentDirectory());
+                System.out.println("Files will be chosen from the directory : " + chooser.getSelectedFile());
+            } else {
                 System.out.println("No Selection ");
             }
 
@@ -130,42 +130,27 @@ public class Gui extends JFrame implements ActionListener{
         }
 
 
-	/*	else if (source == mSave)
-		{
-			JFileChooser fc2 = new JFileChooser();
-			if(fc2.showSaveDialog(null)==JFileChooser.APPROVE_OPTION)
-			{
-				File myfile2 = fc2.getSelectedFile();
-				//JOptionPane.showMessageDialog(null, "Chosen file is "+myfile2.getPath());
-				try {
-					PrintWriter pw = new PrintWriter(myfile2);
-					Scanner scaner = new Scanner(notatnik.getText());
-					while(scaner.hasNext())
-						pw.println(scaner.nextLine()+"\n");
 
-					pw.close();
-				}
-				catch (FileNotFoundException e1)
-				{
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+        if (source == mStart) {
 
-			}
-		}
-		*/
+
+
+        }
+
     }
 
-    public static void main(String[] args) throws IOException, InterruptedException {
-       /* Visualization v = new Visualization(SampleData.getSampleNotesFromFiles(), 0.85, 1);
-        v.drawGraph();
+
+
+
+    public static void main(String argv[]) throws IOException, InterruptedException {
+
+       // Visualization v = new Visualization();
+      //  v.drawGraph();
 
         Gui g = new Gui();
-        g.add(v.getView());
+      //  g.add(v.getView());
         g.setVisible(true);
-        */
-
     }
-
-
 }
+
+
