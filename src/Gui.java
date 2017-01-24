@@ -173,18 +173,18 @@ public class Gui extends JFrame implements ActionListener{
 
     public static void main(String[] args) throws IOException, InterruptedException {
         //SampleData.createFilesFromWeb();
-        Visualization v = new Visualization(SampleData.getSampleNotesFromFiles(), 0.84, 3);
-        Viewer viewer = new Viewer(v.getGraph(), Viewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
-
-        View view = viewer.addDefaultView(false);
-
-        viewer.enableAutoLayout();
-
-        viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
-
-        ViewerPipe fromViewer = viewer.newViewerPipe();
-        fromViewer.addViewerListener(v);
-        fromViewer.addSink(v.getGraph());
+//        Visualization v = new Visualization(SampleData.getSampleNotesFromFiles(), 0.84, 3);
+//        Viewer viewer = new Viewer(v.getGraph(), Viewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
+//
+//        View view = viewer.addDefaultView(false);
+//
+//        viewer.enableAutoLayout();
+//
+//        viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
+//
+//        ViewerPipe fromViewer = viewer.newViewerPipe();
+//        fromViewer.addViewerListener(v);
+//        fromViewer.addSink(v.getGraph());
 
         Gui g = new Gui(); // construct a MyFrame object
         g.getContentPane().add((Component) view, BorderLayout.CENTER);
@@ -197,5 +197,11 @@ public class Gui extends JFrame implements ActionListener{
         }
       //  Gui g = new Gui();
       //  g.setVisible(true);
+    }
+
+    class TestMain {
+        public void main ( String[] args ) throws IOException, InterruptedException {
+
+        }
     }
 }
