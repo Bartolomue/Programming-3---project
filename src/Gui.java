@@ -142,6 +142,7 @@ public class Gui extends JFrame implements ActionListener{
 
 
         if (source == mStart) {
+            
            /* Visualization v = null;
             try {
                 v = new Visualization(note, 0.84, 3);
