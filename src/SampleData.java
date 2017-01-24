@@ -43,6 +43,20 @@ public class SampleData {
             System.out.println("Note creation error.");
         }
 
+        return notes;
+    }
+
+    public static List<Note> getSampleNotesFromFiles2() throws IOException {
+        List<Note> notes = new ArrayList<>();
+
+        try {
+            for (String topic : sampleTopics) {
+                notes.add(new Note(Paths.get(TextFile.buildPath(sampleFolderPath, topic))));
+            }
+        } catch (Exception e) {
+            System.out.println("Note creation error.");
+        }
+
         ServerConnection maksPC = new ServerConnection("192.168.1.5",6066);
         notes = maksPC.performTransfer(notes);
 
