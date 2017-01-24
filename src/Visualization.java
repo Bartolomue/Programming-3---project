@@ -24,6 +24,7 @@ public class Visualization implements ViewerListener {
     public static Map<String, Double> edgesWeights;
     public static Double threshold;
     public static Integer keywordsNumber;
+    //public static Integer modeIndicator; // 1=load, 2=save, 3=regular
 
     protected boolean loop = true;
 
@@ -42,7 +43,16 @@ public class Visualization implements ViewerListener {
     }
 
     public static void main(String argv[]) {
-        //drawGraph();
+        /*
+        String fileName = "bob.bin";
+        File file = new File("./data/Saves/"+fileName);
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Done");
+        */
     }
 
     public void drawGraph() throws InterruptedException {
@@ -118,10 +128,20 @@ public class Visualization implements ViewerListener {
         return view;
     }
 
-    public static void saveGraph(String location) {
+    /**
+     * SaveGraph - saves graph configuration to a predefined 'location'.
+     Serialization process includes creation of GraphSerialized class
+     object.
+     Due to GraphStreamProject.Graph implementation using streams,
+     serialization process excludes the Graph object itself.
+     Errors:
+     - invalid file name provided
+     * @param location
+     */
+    public void saveGraph(String location) {
         if(location == null)
         {
-            // printour error box
+            // error pop!!!
             System.out.println("No destination file!");
             return;
         }
@@ -129,27 +149,53 @@ public class Visualization implements ViewerListener {
         {
             GraphSerialized graphDataOut = new GraphSerialized(vertices,verticesNames,edges,edgesWeights,threshold, keywordsNumber);
             String fileName = location + ".bin";
+            File saveDestination = new File("./data/Saves/"+fileName);
+            try {
+                // create actual .bin file
+                saveDestination.createNewFile();
+            } catch (IOException e) {
+                System.out.println("File creation error");
+                e.printStackTrace();
+            }
             try
             {
                 ObjectOutputStream os =
-                        new ObjectOutputStream(new FileOutputStream(fileName));
+                        new ObjectOutputStream(new FileOutputStream(saveDestination));
                 os.writeObject(graphDataOut);
                 os.close();
 
             }catch(IOException e)
             {
-                System.out.println("Bullshit, error!");
+                // error pop!!!
+                System.out.println("ObjectOutputStream error!");
             }
         }
     }
 
+
+    /**
+     * LoadGraph - allows loading previously stored data configuration.
+     Argument passed must be a defined previously stored .bin graph config file.
+     Destination folder is not definable by user.
+
+     Requirements:
+     - new Visualisation class with Graph object initialized.
+     - loaded configuration with the same keywords set
+
+     Error:
+     - location doesn't exist
+     * @param ilocation
+     * @throws InterruptedException
+     */
     public void loadGraph(String ilocation) throws InterruptedException {
         try
         {
-            String location = ilocation + ".bin";
+            String fileName = ilocation + ".bin";
+            File loadSource = new File("./data/Saves/"+fileName);
             ObjectInputStream is =
-                    new ObjectInputStream(new FileInputStream(location));
+                    new ObjectInputStream(new FileInputStream(loadSource));
             GraphSerialized loadGraph = (GraphSerialized) is.readObject();
+
             vertices = loadGraph.vertices;
             verticesNames=loadGraph.verticesNames;
             edges = loadGraph.edges;
@@ -160,15 +206,16 @@ public class Visualization implements ViewerListener {
 
             is.close();
 
-            drawGraph();
+            //drawGraph();
         }catch(IOException e)
         {
-            System.out.println("Error1");
+            // error pop
+            System.out.println("IO error while loading - file doesnt exist?");
 
         } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
+            // error pop
             e.printStackTrace();
-            System.out.println("Error2");
+            System.out.println("ClassNotFound - deserialisation while loading!");
 
         }
     }

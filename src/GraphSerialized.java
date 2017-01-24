@@ -4,6 +4,12 @@ import java.util.Map;
 /**
  * Created by Maksym on 2017-01-22.
  */
+
+/**
+ * GraphSerialized - provides IO options for Visualisation objects.
+ * Allows storing calculated data (without Graph object) for further usage.
+ *
+ */
 public class GraphSerialized implements Serializable {
 
     public Map<String, Note> vertices;

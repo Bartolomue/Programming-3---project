@@ -12,12 +12,13 @@ public class Note implements Serializable {
     public String name;
     public String content;
     public Map<String, Double> keywords;
+    private static final long serialVersionUID = 1113799434508676095L;
 
     public Note(String _name, String _content) throws IOException {
         this.id = UUID.randomUUID().toString();
         this.name = _name;
         this.content = _content;
-        this.keywords = Extractor.getKeywords("data/Dictionaries/SmartStoplist.txt", this.content);
+        //this.keywords = Extractor.getKeywords("data/Dictionaries/SmartStoplist.txt", this.content);
     }
 
     public Note(Path path) throws IOException {

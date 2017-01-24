@@ -7,10 +7,33 @@ public class TestMain2 {
     public static void main(String argv[]) throws IOException, InterruptedException {
 
         Visualization v = null;
+        v= new Visualization();
         try {
             SampleData.createFilesFromWeb();
+            Integer option=1; // // 1=load, 2=create and save, 3=regular
+            // Load from user
+            String IP = "";
+            int portNumber = 6066;
+            String fileName = ""; // loading
+            //
+            if(option == 1)
+            {
+                // testLocation has been created without _keywordsNum
+                // testFinalLoc is done on server with terms adjusted!
 
-            v = new Visualization(SampleData.getSampleNotesFromFiles(), 0.85, 1);
+                fileName = "TestFile1";
+                v.loadGraph(fileName);
+                System.out.println("Visualization load start!!!");
+                //v.loadGraph("testLocation");
+                //System.out.println("Visualization load done!!!");
+            }
+            else if(option == 2)
+            {
+                v = new Visualization(SampleData.getSampleNotesFromFiles(IP, portNumber), 0.85, 4);
+                v.saveGraph("TestFile1");
+                System.out.println("Visualization done.");
+            }
+            //v = new Visualization(SampleData.getSampleNotesFromFiles(), 0.85, 4);
 //            v.saveGraph("testLocation");
 //            System.out.println("Visualization done.");
 //

@@ -157,12 +157,13 @@ public class Gui extends JFrame implements ActionListener{
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        Visualization v = new Visualization(SampleData.getSampleNotesFromFiles(), 0.85, 1);
+       /* Visualization v = new Visualization(SampleData.getSampleNotesFromFiles(), 0.85, 1);
         v.drawGraph();
 
         Gui g = new Gui();
         g.add(v.getView());
         g.setVisible(true);
+        */
 
     }
 
