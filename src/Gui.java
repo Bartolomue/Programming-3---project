@@ -20,7 +20,7 @@ public class Gui extends JFrame implements ActionListener{
     private JScrollPane scrollpane;
     private JFileChooser chooser;
     String choosertitle;
-    ArrayList<Note> note = new ArrayList();
+    ArrayList<Note> note;
 
     protected static boolean loop = true;
 
@@ -108,7 +108,7 @@ public class Gui extends JFrame implements ActionListener{
         }
         if (source == mOpen)        //After clicking "Open" button
         {
-
+            note = new ArrayList<Note>();
             chooser = new JFileChooser();
             chooser.setCurrentDirectory(new java.io.File("."));
             chooser.setDialogTitle(choosertitle);
