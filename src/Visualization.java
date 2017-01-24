@@ -1,9 +1,6 @@
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
-import org.graphstream.ui.swingViewer.ViewPanel;
-import org.graphstream.ui.view.Viewer;
 import org.graphstream.ui.view.ViewerListener;
-import org.graphstream.ui.view.ViewerPipe;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +14,6 @@ import java.util.List;
 public class Visualization implements ViewerListener {
 
     public static Graph graph;
-    public static ViewPanel view;
     public static Map<String, Note> vertices;
     public static Map<String, String> verticesNames;
     public static Map<String, UnorderedPair<Note>> edges;
@@ -28,104 +24,18 @@ public class Visualization implements ViewerListener {
 
     protected boolean loop = true;
 
-    public Visualization()
-    {
-        this.graph = getGraph();
-    }
-
-    public Visualization(List<Note> _notes, double _threshold, int _keywordsNumber) throws IOException {
+    public Visualization(List<Note> _notes, double _threshold, int _keywordsNumber) throws IOException, InterruptedException {
         this.threshold = _threshold;
         this.vertices = generateVertices(_notes);
         this.verticesNames = getVerticesNames(this.vertices);
         this.edges = generateEdges(this.vertices);
         this.edgesWeights = getEdgesWeights(this.edges);
         this.keywordsNumber = _keywordsNumber;
+        this.graph = createGraph();
     }
 
-    public static void main(String argv[]) {
-        /*
-        String fileName = "bob.bin";
-        File file = new File("./data/Saves/"+fileName);
-        try {
-            file.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Done");
-        */
-    }
-
-    public void drawGraph() throws InterruptedException {
-        graph = getGraph();
-        //saveGraph("testLocation");
-        for (String s : vertices.keySet()) {
-
-            String label = verticesNames.get(s) + ": ";
-
-            Integer i = 0;
-            List<String> keywords = new ArrayList<String>();
-            for (String keyword : vertices.get(s).keywords.keySet()) {
-                if (i > keywordsNumber) {
-                    break;
-                }
-                keywords.add(keyword);
-                i++;
-            }
-
-            label += String.join(", ", keywords);
-
-            graph.addNode(s).addAttribute("ui.label", label);
-        }
-
-        for (String s : edges.keySet()) {
-            if (edgesWeights.get(s) > threshold) {
-                Iterator<Note> it = edges.get(s).set.iterator();
-                Note n1 = null;
-                Note n2 = null;
-
-                if (it.hasNext()) {
-                    n1 = it.next();
-                }
-
-                if (it.hasNext()) {
-                    n2 = it.next();
-                }
-                if (n1 != null && n2 != null) {
-                    System.out.println("Ok");
-                } else {
-                    throw new IllegalArgumentException("Notes should be paired in order to create edge.");
-                }
-                graph.addEdge(s, n1.id, n2.id);
-            }
-        }
-
-        Viewer viewer = graph.display();
-
-        viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
-
-        ViewerPipe fromViewer = viewer.newViewerPipe();
-        fromViewer.addViewerListener(this);
-        fromViewer.addSink(graph);
-
-
-        view = viewer.getDefaultView();
-
-        while(loop) {
-            fromViewer.blockingPump(); // or fromViewer.blockingPump(); in the nightly builds
-
-            // here your simulation code.
-
-            // You do not necessarily need to use a loop, this is only an example.
-            // as long as you call pump() before using the graph. pump() is non
-            // blocking.  If you only use the loop to look at event, use blockingPump()
-            // to avoid 100% CPU usage. The blockingPump() method is only available from
-            // the nightly builds.
-        }
-
-    }
-
-    public static ViewPanel getView() {
-        return view;
+    public static Graph getGraph() {
+        return graph;
     }
 
     /**
@@ -171,7 +81,6 @@ public class Visualization implements ViewerListener {
             }
         }
     }
-
 
     /**
      * LoadGraph - allows loading previously stored data configuration.
@@ -220,11 +129,54 @@ public class Visualization implements ViewerListener {
         }
     }
 
-    private static Graph getGraph() {
+    private Graph createGraph() throws InterruptedException {
+
         Graph graph = new SingleGraph("Test");
         graph.addAttribute("ui.stylesheet", "url('data/Styles/graph.css')");
         graph.addAttribute("ui.quality");
         graph.addAttribute("ui.antialias");
+
+        for (String s : vertices.keySet()) {
+
+//            String label = verticesNames.get(s) + ": ";
+//
+//            Integer i = 0;
+//            List<String> keywords = new ArrayList<>();
+//            for (String keyword : vertices.get(s).keywords.keySet()) {
+//                if (i > keywordsNumber) {
+//                    break;
+//                }
+//                keywords.add(keyword);
+//                i++;
+//            }
+//
+//            label += String.join(", ", keywords);
+
+            graph.addNode(s).addAttribute("ui.label", vertices.get(s).name);
+        }
+
+        for (String s : edges.keySet()) {
+            if (edgesWeights.get(s) > threshold) {
+                Iterator<Note> it = edges.get(s).set.iterator();
+                Note n1 = null;
+                Note n2 = null;
+
+                if (it.hasNext()) {
+                    n1 = it.next();
+                }
+
+                if (it.hasNext()) {
+                    n2 = it.next();
+                }
+                if (n1 != null && n2 != null) {
+                    System.out.println("Ok");
+                } else {
+                    throw new IllegalArgumentException("Notes should be paired in order to create edge.");
+                }
+                graph.addEdge(s, n1.id, n2.id);
+            }
+        }
+
         return graph;
     }
 

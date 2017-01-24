@@ -39,6 +39,19 @@ public class SampleData {
         */
     }
 
+    public static List<Note> getSampleNotesFromFiles() throws IOException {
+        List<Note> notes = new ArrayList<>();
+
+        try {
+            for (String topic : sampleTopics) {
+                notes.add(new Note(Paths.get(TextFile.buildPath(sampleFolderPath, topic))));
+            }
+        } catch (Exception e) {
+            System.out.println("Note creation error.");
+        }
+
+        return notes;
+    }
 
     /**
      * getSampleNotesFromFiles - performs RAKE algorithm (extractor.java)
@@ -47,7 +60,7 @@ public class SampleData {
      * @return
      * @throws IOException
      */
-    public static List<Note> getSampleNotesFromFiles(String IP, int portNumber) throws IOException {
+    public static List<Note> getSampleNotesFromFiles2(String IP, int portNumber) throws IOException {
         List<Note> notes = new ArrayList<>();
 
         try {

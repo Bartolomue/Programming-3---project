@@ -1,4 +1,8 @@
+import org.graphstream.ui.view.View;
+import org.graphstream.ui.view.Viewer;
+
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -17,11 +21,13 @@ public class Gui extends JFrame implements ActionListener{
     String choosertitle;
     ArrayList<Note> note = new ArrayList();
 
+    protected static boolean loop = true;
+
     public Gui(){
         setTitle("MineYourNotes");
-        setSize(800, 600);
+        setSize(1000, 1000);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLayout(null);
+        setLayout(new BorderLayout());
 
         menuBar = new JMenuBar();
         menuFile = new JMenu("File");
@@ -58,8 +64,6 @@ public class Gui extends JFrame implements ActionListener{
 		scrollpane.setBounds(50, 50, 500, 300);
 		add(scrollpane);
 		*/
-
-
 
         menuBar.add(Box.createHorizontalGlue());
         menuBar.add(menuHelp);
@@ -157,15 +161,17 @@ public class Gui extends JFrame implements ActionListener{
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
-       /* Visualization v = new Visualization(SampleData.getSampleNotesFromFiles(), 0.85, 1);
-        v.drawGraph();
 
-        Gui g = new Gui();
-        g.add(v.getView());
-        g.setVisible(true);
-        */
+        Visualization v = new Visualization(SampleData.getSampleNotesFromFiles(), 0.84, 3);
+        Viewer viewer = new Viewer(v.getGraph(), Viewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
 
+        View view = viewer.addDefaultView(false);
+        viewer.enableAutoLayout();
+
+        Gui g = new Gui(); // construct a MyFrame object
+        g.getContentPane().add((Component) view, BorderLayout.CENTER);
+        g.setPreferredSize(new Dimension(800, 600));
+        g.pack();
+        g.setVisible( true );
     }
-
-
 }
