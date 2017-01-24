@@ -15,12 +15,12 @@ public class Gui extends JFrame implements ActionListener{
 
     private JMenuBar menuBar;
     private JMenu menuFile,  menuHelp;
-    private JMenuItem mOpen, mClose, mSave,mAbout;
+    private JMenuItem mOpen, mClose, mSave, mAbout, mStart, mLoad;
     private JTextArea notatnik;
     private JScrollPane scrollpane;
     private JFileChooser chooser;
     String choosertitle;
-    ArrayList<Note> note;
+    public static ArrayList<Note> note;
 
     protected static boolean loop = true;
 
@@ -42,10 +42,18 @@ public class Gui extends JFrame implements ActionListener{
         mSave = new JMenuItem("Save");
         mSave.addActionListener(this);
 
+        mLoad = new JMenuItem("Load");
+        mLoad.addActionListener(this);
+
+        mStart = new JMenuItem("Start");
+        mStart.addActionListener(this);
+
         mClose = new JMenuItem("Close");
 
         menuFile.add(mOpen);
+        menuFile.add(mLoad);
         menuFile.add(mSave);
+        menuFile.add(mStart);
         menuFile.addSeparator();
         menuFile.add(mClose);
 
@@ -94,21 +102,20 @@ public class Gui extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 
-        if(source == mClose)
-        {
-            int respond = JOptionPane.showConfirmDialog(this, "Close? ","Close", JOptionPane.YES_NO_OPTION);
+        if (source == mClose) {
+            int respond = JOptionPane.showConfirmDialog(this, "Close? ", "Close", JOptionPane.YES_NO_OPTION);
 
-            if(respond == JOptionPane.YES_OPTION)
+            if (respond == JOptionPane.YES_OPTION)
                 dispose();
 
         }
         if (source == mAbout)   //if "About" button was chosen
         {
-            JOptionPane.showMessageDialog(this, " Mikołaj Kida, \n Maks Stec, \n Bartłomiej Wichowski, \n Piotr Radomski","Authors:",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, " Mikołaj Kida, \n Maks Stec, \n Bartłomiej Wichowski, \n Piotr Radomski", "Authors:", JOptionPane.INFORMATION_MESSAGE);
         }
         if (source == mOpen)        //After clicking "Open" button
         {
-            note = new ArrayList<Note>();
+            note = new ArrayList<>();
             chooser = new JFileChooser();
             chooser.setCurrentDirectory(new java.io.File("."));
             chooser.setDialogTitle(choosertitle);
@@ -119,10 +126,9 @@ public class Gui extends JFrame implements ActionListener{
             chooser.setAcceptAllFileFilterUsed(false);
 
             if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-               // System.out.println("Current directory: " +  chooser.getCurrentDirectory());
-                System.out.println("Files will be chosen from the directory : " +  chooser.getSelectedFile());
-            }
-            else {
+                // System.out.println("Current directory: " +  chooser.getCurrentDirectory());
+                System.out.println("Files will be chosen from the directory : " + chooser.getSelectedFile());
+            } else {
                 System.out.println("No Selection ");
             }
 
@@ -135,32 +141,35 @@ public class Gui extends JFrame implements ActionListener{
         }
 
 
-	/*	else if (source == mSave)
-		{
-			JFileChooser fc2 = new JFileChooser();
-			if(fc2.showSaveDialog(null)==JFileChooser.APPROVE_OPTION)
-			{
-				File myfile2 = fc2.getSelectedFile();
-				//JOptionPane.showMessageDialog(null, "Chosen file is "+myfile2.getPath());
-				try {
-					PrintWriter pw = new PrintWriter(myfile2);
-					Scanner scaner = new Scanner(notatnik.getText());
-					while(scaner.hasNext())
-						pw.println(scaner.nextLine()+"\n");
+        if (source == mStart) {
+            
+           /* Visualization v = null;
+            try {
+                v = new Visualization(note, 0.84, 3);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
+            Viewer viewer = new Viewer(v.getGraph(), Viewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
 
-					pw.close();
-				}
-				catch (FileNotFoundException e1)
-				{
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+            View view = viewer.addDefaultView(false);
+            viewer.enableAutoLayout();
 
-			}
-		}
-		*/
+            viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
+
+            ViewerPipe fromViewer = viewer.newViewerPipe();
+            fromViewer.addViewerListener(v);
+            fromViewer.addSink(v.getGraph());
+            while(loop) {
+                try {
+                    fromViewer.blockingPump();
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+            }*/
+        }
     }
-
     public static void main(String[] args) throws IOException, InterruptedException {
         SampleData.createFilesFromWeb();
         Visualization v = new Visualization(SampleData.getSampleNotesFromFiles(), 0.84, 3);
@@ -185,5 +194,7 @@ public class Gui extends JFrame implements ActionListener{
         while(loop) {
             fromViewer.blockingPump();
         }
+      //  Gui g = new Gui();
+      //  g.setVisible(true);
     }
 }
