@@ -20,7 +20,7 @@ public class Gui extends JFrame implements ActionListener{
     private JScrollPane scrollpane;
     private JFileChooser chooser;
     String choosertitle;
-    public static ArrayList<Note> note;
+    public static ArrayList<Note> notes;
 
     protected static boolean loop = true;
 
@@ -83,15 +83,15 @@ public class Gui extends JFrame implements ActionListener{
         for (final File fileEntry : folder.listFiles()) {
             if (fileEntry.isDirectory()) {
                 listFilesForFolder(fileEntry);
-            } else if (fileEntry.getName().endsWith(".txt")){
+            } else if (fileEntry.getName().endsWith("")){
                 //System.out.println(fileEntry.getName());
                 // tu wywolac funkcje
               // System.out.println("getSelectedFile() : " +  fileEntry.getAbsolutePath());
                 System.out.println("Chosen file: " +  fileEntry.getName());
                Path path;
                path = fileEntry.toPath();
-                //Note note = new Note(path);
-                note.add(new Note(path));
+                //Note notes = new Note(path);
+                notes.add(new Note(path));
             }
         }
     }
@@ -115,7 +115,7 @@ public class Gui extends JFrame implements ActionListener{
         }
         if (source == mOpen)        //After clicking "Open" button
         {
-            note = new ArrayList<>();
+            notes = new ArrayList<>();
             chooser = new JFileChooser();
             chooser.setCurrentDirectory(new java.io.File("."));
             chooser.setDialogTitle(choosertitle);
@@ -143,9 +143,9 @@ public class Gui extends JFrame implements ActionListener{
 
         if (source == mStart) {
             
-           /* Visualization v = null;
+            Visualization v = null;
             try {
-                v = new Visualization(note, 0.84, 3);
+                v = new Visualization(notes, 0.84, 3);
             } catch (IOException e1) {
                 e1.printStackTrace();
             } catch (InterruptedException e1) {
@@ -167,11 +167,12 @@ public class Gui extends JFrame implements ActionListener{
                 } catch (InterruptedException e1) {
                     e1.printStackTrace();
                 }
-            }*/
+            }
         }
     }
+
     public static void main(String[] args) throws IOException, InterruptedException {
-        SampleData.createFilesFromWeb();
+        //SampleData.createFilesFromWeb();
         Visualization v = new Visualization(SampleData.getSampleNotesFromFiles(), 0.84, 3);
         Viewer viewer = new Viewer(v.getGraph(), Viewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
 
