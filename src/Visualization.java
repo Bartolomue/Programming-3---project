@@ -20,6 +20,14 @@ public class Visualization implements ViewerListener {
     public static Map<String, Double> edgesWeights;
     public static Double threshold;
     public static Integer keywordsNumber;
+    private static Integer maxEdgeWidth = 4;
+    private static Double maxWeight;
+    private static Double minWeight;
+
+    private static Integer maxNodeSize = 32;
+    private static Double maxLenght;
+    private static Double minLenght;
+
     //public static Integer modeIndicator; // 1=load, 2=save, 3=regular
 
     protected boolean loop = true;
@@ -30,11 +38,13 @@ public class Visualization implements ViewerListener {
         this.verticesNames = getVerticesNames(this.vertices);
         this.edges = generateEdges(this.vertices);
         this.edgesWeights = getEdgesWeights(this.edges);
+        this.maxWeight = Collections.max(this.edgesWeights.values());
+        this.minWeight = Collections.min(this.edgesWeights.values());
         this.keywordsNumber = _keywordsNumber;
         this.graph = createGraph();
     }
 
-    public static Graph getGraph() {
+    public Graph getGraph() {
         return graph;
     }
 
@@ -153,6 +163,7 @@ public class Visualization implements ViewerListener {
 //            label += String.join(", ", keywords);
 
             graph.addNode(s).addAttribute("ui.label", vertices.get(s).name);
+            graph.getNode(s).addAttribute("ui.size", 20);
         }
 
         for (String s : edges.keySet()) {
@@ -173,7 +184,12 @@ public class Visualization implements ViewerListener {
                 } else {
                     throw new IllegalArgumentException("Notes should be paired in order to create edge.");
                 }
-                graph.addEdge(s, n1.id, n2.id);
+
+
+
+                graph.addEdge(s, n1.id, n2.id).addAttribute("ui.size", 1 + (int) ((edgesWeights.get(s) - minWeight) /
+                        (maxWeight - minWeight)) * maxEdgeWidth);
+
             }
         }
 
@@ -275,6 +291,15 @@ public class Visualization implements ViewerListener {
 
         return edgesWeights;
     }
+
+//    private Integer getMaxLenghtNote(Map<String, Note> notes) {
+//
+//        Collections.sort(notes.values() ,new Comparator<Note>() {
+//            public int compare(Note o1, Note o2) {
+//                return Integer.compare(o1.size, o2.size);
+//            }
+//        });
+//    }
 
     public void viewClosed(String id) {
         loop = false;

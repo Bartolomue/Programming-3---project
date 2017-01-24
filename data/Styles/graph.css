@@ -3,8 +3,9 @@ graph {
 }
 
 node {
-	size: 10px, 10px;
 	shape: box;
+	size: 10px, 10px;
+	size-mode: dyn-size;
 	fill-color: green;
 	stroke-mode: plain;
 	stroke-color: yellow;
@@ -14,8 +15,8 @@ node {
 }
 
 edge {
-	size: 1px;
-	fill-mode: dyn-plain;
+	size-mode: dyn-size;
+    shape: line;
 }
 
 node.start {

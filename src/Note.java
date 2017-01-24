@@ -11,6 +11,7 @@ public class Note implements Serializable {
     public String id;
     public String name;
     public String content;
+    public Integer size;
     public Map<String, Double> keywords;
     private static final long serialVersionUID = 1113799434508676095L;
 
@@ -19,6 +20,7 @@ public class Note implements Serializable {
         this.name = _name;
         this.content = _content;
         //this.keywords = Extractor.getKeywords("data/Dictionaries/SmartStoplist.txt", this.content);
+        this.size = this.content.length();
     }
 
     public Note(Path path) throws IOException {

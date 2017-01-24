@@ -162,11 +162,12 @@ public class Gui extends JFrame implements ActionListener{
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
-
+        SampleData.createFilesFromWeb();
         Visualization v = new Visualization(SampleData.getSampleNotesFromFiles(), 0.84, 3);
         Viewer viewer = new Viewer(v.getGraph(), Viewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
 
         View view = viewer.addDefaultView(false);
+
         viewer.enableAutoLayout();
 
         viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
@@ -177,7 +178,7 @@ public class Gui extends JFrame implements ActionListener{
 
         Gui g = new Gui(); // construct a MyFrame object
         g.getContentPane().add((Component) view, BorderLayout.CENTER);
-        g.setPreferredSize(new Dimension(800, 600));
+        g.setPreferredSize(new Dimension(1200, 1000));
         g.pack();
         g.setVisible( true );
 
