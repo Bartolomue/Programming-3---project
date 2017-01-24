@@ -13,6 +13,11 @@ node {
 	text-color: white;
 }
 
+edge {
+	size: 1px;
+	fill-mode: dyn-plain;
+}
+
 node.start {
     shape: box;
     size: 25px, 25px;

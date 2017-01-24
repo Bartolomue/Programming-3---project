@@ -9,7 +9,7 @@ public class TestMain2 {
         Visualization v = null;
         v= new Visualization();
         try {
-            SampleData.createFilesFromWeb();
+            //SampleData.createFilesFromWeb(); - patrzcie zakomentowane a działa
             Integer option=1; // // 1=load, 2=create and save, 3=regular
             // Load from user
             String IP = "";
