@@ -84,6 +84,11 @@ public class Gui extends JFrame implements ActionListener {
                 note.add(new Note(path));
             }
         }
+
+        for(Note n:note)
+        {
+            System.out.println(n.name + "   " + n.content);
+        }
     }
 
 
