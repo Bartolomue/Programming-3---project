@@ -81,14 +81,12 @@ public class Gui extends JFrame implements ActionListener {
                 Path path;
                 path = fileEntry.toPath();
                 //Note note = new Note(path);
+
                 note.add(new Note(path));
             }
         }
 
-        for(Note n:note)
-        {
-            System.out.println(n.name + "   " + n.content);
-        }
+
     }
 
 
@@ -130,6 +128,11 @@ public class Gui extends JFrame implements ActionListener {
                 listFilesForFolder(chooser.getSelectedFile());
             } catch (IOException e1) {
                 e1.printStackTrace();
+            }
+
+            for(Note n:note)
+            {
+                System.out.println(n.name + "   " + n.content);
             }
 
         }
