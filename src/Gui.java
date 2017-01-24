@@ -1,5 +1,6 @@
 import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.Viewer;
+import org.graphstream.ui.view.ViewerPipe;
 
 import javax.swing.*;
 import java.awt.*;
@@ -168,10 +169,20 @@ public class Gui extends JFrame implements ActionListener{
         View view = viewer.addDefaultView(false);
         viewer.enableAutoLayout();
 
+        viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
+
+        ViewerPipe fromViewer = viewer.newViewerPipe();
+        fromViewer.addViewerListener(v);
+        fromViewer.addSink(v.getGraph());
+
         Gui g = new Gui(); // construct a MyFrame object
         g.getContentPane().add((Component) view, BorderLayout.CENTER);
         g.setPreferredSize(new Dimension(800, 600));
         g.pack();
         g.setVisible( true );
+
+        while(loop) {
+            fromViewer.blockingPump();
+        }
     }
 }
