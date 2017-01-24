@@ -67,7 +67,7 @@ public class SampleData {
         }
         String givenIP = IP;
 
-        // givenIP = "192.168.1.5"
+         givenIP = "192.168.1.5";
         // portNumber = 6066;
         notes=serverConnection(givenIP, portNumber, notes);
         // change IP to either passed, or pre-given test?

@@ -21,7 +21,7 @@ public class TestMain2 {
                 // testLocation has been created without _keywordsNum
                 // testFinalLoc is done on server with terms adjusted!
 
-                fileName = "TestFile1";
+                fileName = "TestFile99";
                 v.loadGraph(fileName);
                 System.out.println("Visualization load start!!!");
                 //v.loadGraph("testLocation");
@@ -30,7 +30,7 @@ public class TestMain2 {
             else if(option == 2)
             {
                 v = new Visualization(SampleData.getSampleNotesFromFiles(IP, portNumber), 0.85, 4);
-                v.saveGraph("TestFile1");
+                v.saveGraph("TestFile99");
                 System.out.println("Visualization done.");
             }
             //v = new Visualization(SampleData.getSampleNotesFromFiles(), 0.85, 4);
@@ -49,6 +49,10 @@ public class TestMain2 {
 
         if (v != null) {
             v.drawGraph();
+            Gui g = new Gui();
+            g.add(v.getView());
+            g.setVisible(true);
+            //v.drawGraph();
         }
     }
 }
