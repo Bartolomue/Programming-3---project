@@ -1,9 +1,11 @@
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.swingViewer.ViewPanel;
+import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.Viewer;
 import org.graphstream.ui.view.ViewerListener;
 import org.graphstream.ui.view.ViewerPipe;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +20,7 @@ public class Visualization implements ViewerListener {
 
     public static Graph graph;
     public static ViewPanel view;
+
     public static Map<String, Note> vertices;
     public static Map<String, String> verticesNames;
     public static Map<String, UnorderedPair<Note>> edges;
@@ -25,6 +28,8 @@ public class Visualization implements ViewerListener {
     public static Double threshold;
     public static Integer keywordsNumber;
     //public static Integer modeIndicator; // 1=load, 2=save, 3=regular
+
+
 
     protected boolean loop = true;
 
@@ -98,16 +103,18 @@ public class Visualization implements ViewerListener {
                 graph.addEdge(s, n1.id, n2.id);
             }
         }
-
+        //Viewer viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
         Viewer viewer = graph.display();
+        view = viewer.getDefaultView();
+        //view = viewer.addDefaultView(false);
 
-        viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
+       // viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
 
         ViewerPipe fromViewer = viewer.newViewerPipe();
         fromViewer.addViewerListener(this);
         fromViewer.addSink(graph);
 
-
+        //view = view2;
         view = viewer.getDefaultView();
 
         while(loop) {
@@ -127,6 +134,8 @@ public class Visualization implements ViewerListener {
     public static ViewPanel getView() {
         return view;
     }
+
+
 
     /**
      * SaveGraph - saves graph configuration to a predefined 'location'.
@@ -179,7 +188,7 @@ public class Visualization implements ViewerListener {
      Destination folder is not definable by user.
 
      Requirements:
-     - new Visualisation class with Graph object initialized.
+     - new Visualisation class object with Graph object initialized.
      - loaded configuration with the same keywords set
 
      Error:
@@ -220,7 +229,7 @@ public class Visualization implements ViewerListener {
         }
     }
 
-    private static Graph getGraph() {
+    public static Graph getGraph() {
         Graph graph = new SingleGraph("Test");
         graph.addAttribute("ui.stylesheet", "url('data/Styles/graph.css')");
         graph.addAttribute("ui.quality");
