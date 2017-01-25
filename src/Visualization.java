@@ -24,9 +24,9 @@ public class Visualization implements ViewerListener {
     private static Double maxWeight;
     private static Double minWeight;
 
-    private static Integer maxNodeSize = 32;
-    private static Double maxLenght;
-    private static Double minLenght;
+    private static Integer maxNodeSize = 24;
+    private static Integer maxLength;
+    private static Integer minLength;
 
     //public static Integer modeIndicator; // 1=load, 2=save, 3=regular
 
@@ -41,6 +41,8 @@ public class Visualization implements ViewerListener {
         this.maxWeight = Collections.max(this.edgesWeights.values());
         this.minWeight = Collections.min(this.edgesWeights.values());
         this.keywordsNumber = _keywordsNumber;
+        this.maxLength = getMaxLenghtNote(this.vertices);
+        this.minLength = getMinLenghtNote(this.vertices);
         this.graph = createGraph();
     }
 
@@ -163,7 +165,9 @@ public class Visualization implements ViewerListener {
 //            label += String.join(", ", keywords);
 
             graph.addNode(s).addAttribute("ui.label", vertices.get(s).name);
-            graph.getNode(s).addAttribute("ui.size", 20);
+            graph.getNode(s).addAttribute("ui.size", 2 + (
+                    (((vertices.get(s).content.length() - minLength) /
+                    (maxLength - minLength) + 1) + 0.15) * maxNodeSize));
         }
 
         for (String s : edges.keySet()) {
@@ -187,8 +191,9 @@ public class Visualization implements ViewerListener {
 
 
 
-                graph.addEdge(s, n1.id, n2.id).addAttribute("ui.size", 1 + (int) ((edgesWeights.get(s) - minWeight) /
-                        (maxWeight - minWeight)) * maxEdgeWidth);
+                graph.addEdge(s, n1.id, n2.id).addAttribute("ui.size", 1 + (int)
+                        ((edgesWeights.get(s) - minWeight) /
+                                ((maxWeight - minWeight)) * maxEdgeWidth));
 
             }
         }
@@ -292,14 +297,27 @@ public class Visualization implements ViewerListener {
         return edgesWeights;
     }
 
-//    private Integer getMaxLenghtNote(Map<String, Note> notes) {
-//
-//        Collections.sort(notes.values() ,new Comparator<Note>() {
-//            public int compare(Note o1, Note o2) {
-//                return Integer.compare(o1.size, o2.size);
-//            }
-//        });
-//    }
+    private Integer getMaxLenghtNote(Map<String, Note> notes) {
+        Integer size = 0;
+        for (Note s : notes.values()) {
+            if (s.content.length() > size) {
+                size = s.content.length();
+            }
+        }
+
+        return size;
+    }
+
+    private Integer getMinLenghtNote(Map<String, Note> notes) {
+        Integer size = Integer.MAX_VALUE;
+        for (Note s : notes.values()) {
+            if (s.content.length() < size) {
+                size = s.content.length();
+            }
+        }
+
+        return size;
+    }
 
     public void viewClosed(String id) {
         loop = false;
