@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 public class Gui extends JFrame implements ActionListener{
 
+    private static Component graphComponent;
     private JMenuBar menuBar;
     private JMenu menuFile,  menuHelp;
     private JMenuItem mOpen, mClose, mSave, mAbout, mStart, mLoad;
@@ -142,66 +143,51 @@ public class Gui extends JFrame implements ActionListener{
 
 
         if (source == mStart) {
-            
-            Visualization v = null;
             try {
-                v = new Visualization(notes, 0.84, 3);
+                addViewer(notes);
             } catch (IOException e1) {
                 e1.printStackTrace();
             } catch (InterruptedException e1) {
                 e1.printStackTrace();
             }
-            Viewer viewer = new Viewer(v.getGraph(), Viewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
-
-            View view = viewer.addDefaultView(false);
-            viewer.enableAutoLayout();
-
-            viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
-
-            ViewerPipe fromViewer = viewer.newViewerPipe();
-            fromViewer.addViewerListener(v);
-            fromViewer.addSink(v.getGraph());
-            while(loop) {
-                try {
-                    fromViewer.blockingPump();
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }
-            }
         }
     }
 
-    public static void main(String[] args) throws IOException, InterruptedException {
-        //SampleData.createFilesFromWeb();
-//        Visualization v = new Visualization(SampleData.getSampleNotesFromFiles(), 0.84, 3);
-//        Viewer viewer = new Viewer(v.getGraph(), Viewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
-//
-//        View view = viewer.addDefaultView(false);
-//
-//        viewer.enableAutoLayout();
-//
-//        viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
-//
-//        ViewerPipe fromViewer = viewer.newViewerPipe();
-//        fromViewer.addViewerListener(v);
-//        fromViewer.addSink(v.getGraph());
+    public void addViewer(ArrayList<Note> notes) throws IOException, InterruptedException {
+        getContentPane().removeAll();
 
-        Gui g = new Gui(); // construct a MyFrame object
-        g.getContentPane().add((Component) view, BorderLayout.CENTER);
-        g.setPreferredSize(new Dimension(1200, 1000));
-        g.pack();
-        g.setVisible( true );
-
-        while(loop) {
-            fromViewer.blockingPump();
+        graphComponent = createComponent(notes);
+        try {
+            getContentPane().remove(graphComponent);
+        } catch (Exception e) {
+            System.out.println("Error while removing component.");
         }
-      //  Gui g = new Gui();
-      //  g.setVisible(true);
+        getContentPane().add(graphComponent, BorderLayout.CENTER);
+        setPreferredSize(new Dimension(1200, 1000));
+        invalidate();
+        repaint();
+        pack();
+        setVisible(true);
     }
 
-    class TestMain {
-        public void main ( String[] args ) throws IOException, InterruptedException {
+    public static Component createComponent(ArrayList<Note> notes) throws IOException, InterruptedException {
+        Visualization v = new Visualization(notes, 0.84, 3);
+        Viewer viewer = new Viewer(v.getGraph(), Viewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
+        View view = viewer.addDefaultView(false);
+        viewer.enableAutoLayout();
+        viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
+        ViewerPipe fromViewer = viewer.newViewerPipe();
+        fromViewer.addViewerListener(v);
+        fromViewer.addSink(v.getGraph());
+        return (Component) view;
+    }
+}
 
-        }
+class TestMain {
+    public static void main ( String[] args ) throws IOException, InterruptedException {
+
+        Gui g = new Gui();
+        g.setVisible(true);
+
     }
 }
