@@ -5,7 +5,7 @@ import java.io.IOException;
  */
 public class TestMain2 {
     public static void main(String argv[]) throws IOException, InterruptedException {
-
+        SampleData.createFilesFromWeb();
 //        Visualization v = null;
 //        v= new Visualization();
 //        try {

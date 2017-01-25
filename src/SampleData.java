@@ -13,7 +13,8 @@ public class SampleData {
 
     private static final List<String> sampleTopics = Arrays.asList("History", "Ancient_Greece", "Computer_science",
             "Logic", "Mathematics", "Pattern", "Warsaw", "Boston", "New_York", "London", "Kraków", "Math",
-            "Information", "Bernoulli_number", "Binary_number");
+            "Information", "Bernoulli_number", "Binary_number", "JPMorgan_Chase", "Bank", "Deposit_account",
+            "Investment_banking");
     private static final String sampleUrl = "https://en.wikipedia.org/wiki/";
     private static final String sampleFolderPath = "data" + java.io.File.separator + "Files";
 
