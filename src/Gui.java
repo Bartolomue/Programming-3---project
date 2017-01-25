@@ -13,12 +13,13 @@ import java.io.Writer;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
+
 public class Gui extends JFrame implements ActionListener{
 
     private static Component graphComponent;
     private JMenuBar menuBar;
-    private JMenu menuFile,  menuHelp;
-    private JMenuItem mOpen, mClose, mSave, mAbout, mStart, mLoad;
+    private JMenu menuFile,  menuHelp, menuFile2;
+    private JMenuItem mOpen, mClose, mSave, mAbout, mStart, mLoad, mIP;
     private JTextArea notatnik;
     private JScrollPane scrollpane;
     private JFileChooser chooser, chooserSave,chooserLoad;
@@ -26,7 +27,8 @@ public class Gui extends JFrame implements ActionListener{
     public static ArrayList<Note> notes;
     String _savename;
     String nameLoad;
-
+    String IP;
+    int Port;
     protected static boolean loop = true;
 
     public Gui(){
@@ -37,7 +39,7 @@ public class Gui extends JFrame implements ActionListener{
 
         menuBar = new JMenuBar();
         menuFile = new JMenu("File");
-
+        menuFile2 = new JMenu("Connect");
         menuHelp = new JMenu("Help");
 
         mOpen = new JMenuItem("Open");
@@ -53,6 +55,9 @@ public class Gui extends JFrame implements ActionListener{
         mStart = new JMenuItem("Start");
         mStart.addActionListener(this);
 
+        mIP = new JMenuItem("Connect");
+        mIP.addActionListener(this);
+
         mClose = new JMenuItem("Close");
 
         menuFile.add(mOpen);
@@ -61,6 +66,8 @@ public class Gui extends JFrame implements ActionListener{
         menuFile.add(mStart);
         menuFile.addSeparator();
         menuFile.add(mClose);
+
+        menuFile2.add(mIP);
 
         mClose.addActionListener(this);
         mClose.setAccelerator(KeyStroke.getKeyStroke("ctrl X"));  //Allows to close a program by the combination Ctrl+x
@@ -72,6 +79,7 @@ public class Gui extends JFrame implements ActionListener{
 
         setJMenuBar(menuBar);
         menuBar.add(menuFile);
+        menuBar.add(menuFile2);
 	/*
 		notatnik = new JTextArea();
 		scrollpane = new JScrollPane(notatnik);
@@ -156,7 +164,7 @@ public class Gui extends JFrame implements ActionListener{
             }
         }
         if (source == mSave) {
-            String _savename = JOptionPane.showInputDialog("Enter file name");
+            String _savename = JOptionPane.showInputDialog(this,"Enter file name");
             System.out.print(_savename);
         }
 
@@ -177,6 +185,14 @@ public class Gui extends JFrame implements ActionListener{
             } else {
                 System.out.println("No Selection ");
            }
+        }
+        if(source == mIP){
+            IP = JOptionPane.showInputDialog(this,"Enter IP");
+
+            String port = JOptionPane.showInputDialog(this,"Enter port");
+            Port = Integer.valueOf(port);
+
+          //  System.out.print(IP +" " +Port);
         }
     }
 
