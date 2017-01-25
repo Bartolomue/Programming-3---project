@@ -21,10 +21,11 @@ public class Gui extends JFrame implements ActionListener{
     private JMenuItem mOpen, mClose, mSave, mAbout, mStart, mLoad;
     private JTextArea notatnik;
     private JScrollPane scrollpane;
-    private JFileChooser chooser, chooserSave;
+    private JFileChooser chooser, chooserSave,chooserLoad;
     String choosertitle;
     public static ArrayList<Note> notes;
-    String _filename;
+    String _savename;
+    String nameLoad;
 
     protected static boolean loop = true;
 
@@ -155,9 +156,28 @@ public class Gui extends JFrame implements ActionListener{
             }
         }
         if (source == mSave) {
-            String _filename = JOptionPane.showInputDialog ( "Enter file name" );
+            String _savename = JOptionPane.showInputDialog("Enter file name");
+            System.out.print(_savename);
         }
 
+        if( source == mLoad){
+            chooserLoad = new JFileChooser();
+            chooserLoad.setCurrentDirectory(new java.io.File("."));
+            chooserLoad.setDialogTitle(choosertitle);
+            chooserLoad.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+            //chooserLoad.setAcceptAllFileFilterUsed(false);
+
+            if (chooserLoad.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+
+                File filename = chooserLoad.getSelectedFile();
+
+                nameLoad = filename.getName();
+                System.out.println(nameLoad);
+            } else {
+                System.out.println("No Selection ");
+           }
+        }
     }
 
 
