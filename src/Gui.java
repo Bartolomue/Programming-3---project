@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
@@ -19,9 +21,10 @@ public class Gui extends JFrame implements ActionListener{
     private JMenuItem mOpen, mClose, mSave, mAbout, mStart, mLoad;
     private JTextArea notatnik;
     private JScrollPane scrollpane;
-    private JFileChooser chooser;
+    private JFileChooser chooser, chooserSave;
     String choosertitle;
     public static ArrayList<Note> notes;
+    String _filename;
 
     protected static boolean loop = true;
 
@@ -151,7 +154,12 @@ public class Gui extends JFrame implements ActionListener{
                 e1.printStackTrace();
             }
         }
+        if (source == mSave) {
+            String _filename = JOptionPane.showInputDialog ( "Enter file name" );
+        }
+
     }
+
 
     public void addViewer(ArrayList<Note> notes) throws IOException, InterruptedException {
         getContentPane().removeAll();
