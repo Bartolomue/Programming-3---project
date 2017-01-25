@@ -18,6 +18,14 @@ public class GraphSerialized implements Serializable {
     public Map<String, Double> edgesWeights;
     public Double threshold;
     public Integer keywordsNumber;
+    public static Integer maxEdgeWidth = 4;
+    public static Double maxWeight;
+    public  static Double minWeight;
+
+    public  static Integer maxNodeSize = 24;
+    public  static Integer maxLength;
+    public  static Integer minLength;
+    public  boolean loop = true;
 
     GraphSerialized(){};
 
@@ -26,7 +34,14 @@ public class GraphSerialized implements Serializable {
                     Map<String, UnorderedPair<Note>> iedges,
                     Map<String, Double> iedgesWeights,
                     Double ithreshold,
-                    Integer ikeywordsNumber)
+                    Integer ikeywordsNumber,
+                    Integer imaxedgeWidth,
+                    Double imaxWeight,
+                    Double iminWeight,
+                    Integer imaxNodeSize,
+                    Integer imaxLength,
+                    Integer iminLength,
+                    boolean iloop)
     {
         this.vertices = ivertices;
         this.verticesNames = iverticesNames;
@@ -34,6 +49,13 @@ public class GraphSerialized implements Serializable {
         this.edgesWeights = iedgesWeights;
         this.threshold = ithreshold;
         this.keywordsNumber = ikeywordsNumber;
+        this.maxEdgeWidth = imaxedgeWidth;
+        this.maxWeight = imaxWeight;
+        this.minWeight = iminWeight;
+        this.maxNodeSize = imaxNodeSize;
+        this.maxLength = imaxLength;
+        this.minLength = iminLength;
+        this.loop = iloop;
     }
 
 

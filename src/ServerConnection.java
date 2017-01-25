@@ -20,14 +20,14 @@ public class ServerConnection {
         PORT = iport;
     }
 
-    public List<Note> performTransfer(List<Note> notes)
+    public ArrayList<Note> performTransfer(ArrayList<Note> notes)
     {
         // if PORT field is empty -> cal with -1
         if(PORT == -1)
         {
             PORT = 6066;
         }
-        List<Note> newNotes = new ArrayList<>();
+        ArrayList<Note> newNotes = new ArrayList<>();
         //port = 6066;
         try {
             System.out.println("Connecting to " + IP + " on port " + PORT);
@@ -40,7 +40,7 @@ public class ServerConnection {
 
             outToServer.writeObject(notes);
 
-            newNotes = (List<Note>)inFromServer.readObject();
+            newNotes = (ArrayList<Note>)inFromServer.readObject();
 
             for(Note e:newNotes)
             {

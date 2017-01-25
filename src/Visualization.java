@@ -13,13 +13,13 @@ import java.util.List;
  */
 public class Visualization implements ViewerListener {
 
-    public static Graph graph;
-    public static Map<String, Note> vertices;
-    public static Map<String, String> verticesNames;
-    public static Map<String, UnorderedPair<Note>> edges;
-    public static Map<String, Double> edgesWeights;
-    public static Double threshold;
-    public static Integer keywordsNumber;
+    public Graph graph;
+    public Map<String, Note> vertices;
+    public Map<String, String> verticesNames;
+    public Map<String, UnorderedPair<Note>> edges;
+    public Map<String, Double> edgesWeights;
+    public Double threshold;
+    public Integer keywordsNumber;
     private static Integer maxEdgeWidth = 4;
     private static Double maxWeight;
     private static Double minWeight;
@@ -46,6 +46,10 @@ public class Visualization implements ViewerListener {
         this.graph = createGraph();
     }
 
+    public Visualization() {
+
+    }
+
     public Graph getGraph() {
         return graph;
     }
@@ -69,7 +73,7 @@ public class Visualization implements ViewerListener {
         }
         else
         {
-            GraphSerialized graphDataOut = new GraphSerialized(vertices,verticesNames,edges,edgesWeights,threshold, keywordsNumber);
+            GraphSerialized graphDataOut = new GraphSerialized(vertices,verticesNames,edges,edgesWeights,threshold, keywordsNumber, maxEdgeWidth, maxWeight, minWeight,maxNodeSize,maxLength,minLength,loop);
             String fileName = location + ".bin";
             File saveDestination = new File("./data/Saves/"+fileName);
             try {
@@ -111,18 +115,26 @@ public class Visualization implements ViewerListener {
     public void loadGraph(String ilocation) throws InterruptedException {
         try
         {
-            String fileName = ilocation + ".bin";
+            String fileName = ilocation + ""; // + .bin
             File loadSource = new File("./data/Saves/"+fileName);
             ObjectInputStream is =
                     new ObjectInputStream(new FileInputStream(loadSource));
             GraphSerialized loadGraph = (GraphSerialized) is.readObject();
 
-            vertices = loadGraph.vertices;
-            verticesNames=loadGraph.verticesNames;
-            edges = loadGraph.edges;
-            edgesWeights = loadGraph.edgesWeights;
-            threshold = loadGraph.threshold;
-            keywordsNumber = loadGraph.keywordsNumber;
+            this.vertices = loadGraph.vertices;
+            this.verticesNames=loadGraph.verticesNames;
+            this.edges = loadGraph.edges;
+            this.edgesWeights = loadGraph.edgesWeights;
+            this.threshold = loadGraph.threshold;
+            this.keywordsNumber = loadGraph.keywordsNumber;
+            this.maxEdgeWidth = loadGraph.maxEdgeWidth;
+            this.maxWeight = loadGraph.maxWeight;
+            this.minWeight = loadGraph.minWeight;
+            this.maxNodeSize = loadGraph.maxNodeSize;
+            this.maxLength = loadGraph.maxLength;
+            this.minLength = loadGraph.minLength;
+            this.loop = loadGraph.loop;
+            this.graph = createGraph();
             //System.out.println("Loaded graph: "+loadMan.name);
 
             is.close();
@@ -165,9 +177,8 @@ public class Visualization implements ViewerListener {
 //            label += String.join(", ", keywords);
 
             graph.addNode(s).addAttribute("ui.label", vertices.get(s).name);
-            graph.getNode(s).addAttribute("ui.size", 2 + (
-                    (((vertices.get(s).content.length() - minLength) /
-                    (maxLength - minLength) + 1) + 0.15) * maxNodeSize));
+            graph.getNode(s).addAttribute("ui.size", 2 + ((vertices.get(s).content.length() - minLength) /
+                    (maxLength - minLength) + 1 + 0.15) * maxNodeSize);
         }
 
         for (String s : edges.keySet()) {

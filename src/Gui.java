@@ -16,6 +16,8 @@ import java.util.ArrayList;
 
 public class Gui extends JFrame implements ActionListener{
 
+    private ServerConnection connection;
+    private Visualization v;
     private static Component graphComponent;
     private JMenuBar menuBar;
     private JMenu menuFile,  menuHelp, menuFile2;
@@ -29,9 +31,11 @@ public class Gui extends JFrame implements ActionListener{
     String nameLoad;
     String IP;
     int Port;
+    int mode;
     protected static boolean loop = true;
 
     public Gui(){
+        mode=0;
         setTitle("MineYourNotes");
         setSize(1000, 1000);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -68,7 +72,6 @@ public class Gui extends JFrame implements ActionListener{
         menuFile.add(mClose);
 
         menuFile2.add(mIP);
-
         mClose.addActionListener(this);
         mClose.setAccelerator(KeyStroke.getKeyStroke("ctrl X"));  //Allows to close a program by the combination Ctrl+x
 
@@ -147,6 +150,10 @@ public class Gui extends JFrame implements ActionListener{
 
             try {
                 listFilesForFolder(chooser.getSelectedFile());
+                System.out.println("Connection start");
+                connection = new ServerConnection(IP,Port);
+                this.notes = connection.performTransfer(this.notes);
+                System.out.println("Connection end");
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
@@ -156,6 +163,7 @@ public class Gui extends JFrame implements ActionListener{
 
         if (source == mStart) {
             try {
+                // update notes
                 addViewer(notes);
             } catch (IOException e1) {
                 e1.printStackTrace();
@@ -166,9 +174,13 @@ public class Gui extends JFrame implements ActionListener{
         if (source == mSave) {
             String _savename = JOptionPane.showInputDialog(this,"Enter file name");
             System.out.print(_savename);
+            v.saveGraph(_savename);
         }
 
         if( source == mLoad){
+            mode = 1;
+            v=new Visualization();
+
             chooserLoad = new JFileChooser();
             chooserLoad.setCurrentDirectory(new java.io.File("."));
             chooserLoad.setDialogTitle(choosertitle);
@@ -185,13 +197,19 @@ public class Gui extends JFrame implements ActionListener{
             } else {
                 System.out.println("No Selection ");
            }
+            try {
+                v.loadGraph(nameLoad);
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+                System.out.println("Loading rupted!");
+            }
         }
+
         if(source == mIP){
             IP = JOptionPane.showInputDialog(this,"Enter IP");
 
             String port = JOptionPane.showInputDialog(this,"Enter port");
             Port = Integer.valueOf(port);
-
           //  System.out.print(IP +" " +Port);
         }
     }
@@ -214,8 +232,16 @@ public class Gui extends JFrame implements ActionListener{
         setVisible(true);
     }
 
-    public static Component createComponent(ArrayList<Note> notes) throws IOException, InterruptedException {
-        Visualization v = new Visualization(notes, 0.84, 3);
+    public Component createComponent(ArrayList<Note> notes) throws IOException, InterruptedException {
+        if(mode > 0)
+        {
+
+        }
+        else
+        {
+            v = new Visualization(notes, 0.84, 3);
+        }
+        mode=0;
         Viewer viewer = new Viewer(v.getGraph(), Viewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
         View view = viewer.addDefaultView(false);
         viewer.enableAutoLayout();

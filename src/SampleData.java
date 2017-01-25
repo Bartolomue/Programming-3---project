@@ -47,7 +47,8 @@ public class SampleData {
         return notes;
     }
 
-    public static List<Note> getSampleNotesFromFiles2() throws IOException {
+    /*
+    public static ArrayList<Note> getSampleNotesFromFiles2() throws IOException {
         List<Note> notes = new ArrayList<>();
 
         try {
@@ -62,7 +63,7 @@ public class SampleData {
         notes = maksPC.performTransfer(notes);
 
         return notes;
-    }
+    }*/
 
 
 
